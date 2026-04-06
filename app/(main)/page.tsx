@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Dumbbell, Utensils, Flame, TrendingUp, ChevronRight, Target, X } from "lucide-react";
-import { getMealsByDate, getDailyTargets, getAllWorkouts, getMealsInRange, getMyProfile } from "@/lib/db";
+import { getMealsByDate, getDailyTargets, getAllWorkouts, getMealsInRange, getMyProfile, getCurrentUserId } from "@/lib/db";
 import type { DailyTargets, MealEntry, WorkoutRecord } from "@/lib/types";
 import { computeInsights, InsightIcon } from "@/lib/insights";
 import { getOnboardingTips, getDismissedTips, dismissTip, type OnboardingTip } from "@/lib/onboarding";
+import { useRealtimeSync } from "@/hooks/useRealtimeSync";
 
 export default function TodayPage() {
   const todayDate = new Date().toISOString().slice(0, 10);
@@ -22,8 +23,9 @@ export default function TodayPage() {
   const [allMeals, setAllMeals] = useState<MealEntry[]>([]);
   const [tips, setTips] = useState<OnboardingTip[]>([]);
   const [dismissed, setDismissed] = useState<Set<string>>(new Set());
+  const [userId, setUserId] = useState<string | null>(null);
 
-  useEffect(() => {
+  function loadData() {
     getMealsByDate(todayDate).then(setMeals);
     getDailyTargets().then((t) => {
       setTargets(t);
@@ -38,7 +40,15 @@ export default function TodayPage() {
     past7.setDate(past7.getDate() - 7);
     getMealsInRange(past7.toISOString().slice(0, 10), todayDate).then(setAllMeals);
     setDismissed(getDismissedTips());
-  }, [todayDate]);
+  }
+
+  useEffect(() => {
+    loadData();
+    getCurrentUserId().then(setUserId);
+  }, [todayDate]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Realtime sync: refresh when workouts or meals change on another device
+  useRealtimeSync(userId, ["workouts", "meals"], loadData, 60_000);
 
   const insights = computeInsights(workouts, allMeals, targets);
 

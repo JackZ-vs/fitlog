@@ -23,6 +23,18 @@ export default async function ExercisesPage() {
       </div>
 
       <ExerciseBrowser exercises={exercises} />
+
+      {/* Data source attribution */}
+      <div className="mt-8 pt-6 border-t border-[#1a1d24]">
+        <p className="text-[10px] text-[#3f4350] text-center leading-relaxed">
+          动作参考{" "}
+          <span className="text-[#6b7280]">ACSM Guidelines for Exercise Testing and Prescription</span>
+          {" "}·{" "}
+          <span className="text-[#6b7280]">ExRx.net</span>
+          {" "}·{" "}
+          <span className="text-[#6b7280]">NSCA Essentials of Strength Training</span>
+        </p>
+      </div>
     </div>
   );
 }

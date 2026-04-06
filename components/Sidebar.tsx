@@ -4,13 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, CalendarDays, Dumbbell, BookOpen, BarChart2,
-  Rss, Settings, Zap, User, LogOut, Shield,
+  Rss, Settings, Zap, User, LogOut, Shield, Salad, History,
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", icon: LayoutDashboard, label: "今日概览" },
   { href: "/calendar", icon: CalendarDays, label: "日历" },
+  { href: "/history", icon: History, label: "训练历史" },
   { href: "/exercises", icon: BookOpen, label: "动作库" },
+  { href: "/foods", icon: Salad, label: "食物库" },
   { href: "/stats", icon: BarChart2, label: "统计" },
   { href: "/feed", icon: Rss, label: "动态" },
   { href: "/settings", icon: Settings, label: "设置" },

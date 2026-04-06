@@ -53,6 +53,7 @@ export default function NutritionEditor({ date }: Props) {
   const [targets, setTargets] = useState<DailyTargets>({ calories: 2000, protein: 150, carbs: 250, fat: 65 });
   const [collapsed, setCollapsed] = useState<Set<MealType>>(new Set());
   const [adding, setAdding] = useState<MealType | null>(null);
+  const [summaryCollapsed, setSummaryCollapsed] = useState(false);
 
   const [pageReady, setPageReady] = useState(false);
 
@@ -226,17 +227,33 @@ export default function NutritionEditor({ date }: Props) {
       {/* Daily summary — sticky bottom */}
       <div className="fixed bottom-16 md:bottom-0 inset-x-0 z-20 pointer-events-none">
         <div className="max-w-2xl mx-auto px-4 pb-3 pointer-events-auto">
-          <div className="rounded-xl bg-[#111318]/96 backdrop-blur border border-[#252830] p-4 shadow-2xl">
-            <div className="flex items-center justify-between mb-3">
+          <div className="rounded-xl bg-[#111318]/96 backdrop-blur border border-[#252830] shadow-2xl">
+            {/* Header row — always visible */}
+            <button
+              onClick={() => setSummaryCollapsed((v) => !v)}
+              className="w-full flex items-center gap-2 px-4 py-3"
+            >
               <h3 className="text-sm font-semibold text-[#f0f2f5]">今日汇总</h3>
-              <span className="text-xs text-[#6b7280]">{meals.length} 条记录</span>
-            </div>
-            <div className="space-y-2.5">
-              <MacroBar label="热量" value={totals.calories} target={targets.calories} unit="kcal" color="#f97316" />
-              <MacroBar label="蛋白质" value={totals.protein} target={targets.protein} unit="g" color="#a78bfa" />
-              <MacroBar label="碳水" value={totals.carbs} target={targets.carbs} unit="g" color="#22d3ee" />
-              <MacroBar label="脂肪" value={totals.fat} target={targets.fat} unit="g" color="#4ade80" />
-            </div>
+              <span className="text-xs text-[#f97316] font-semibold">{Math.round(totals.calories)} kcal</span>
+              <span className="text-xs text-[#3f4350]">/ {targets.calories}</span>
+              <span className="ml-auto text-xs text-[#6b7280]">{meals.length} 条</span>
+              {summaryCollapsed ? (
+                <ChevronUp size={14} className="text-[#3f4350] shrink-0" />
+              ) : (
+                <ChevronDown size={14} className="text-[#3f4350] shrink-0" />
+              )}
+            </button>
+            {/* Expandable macro bars */}
+            {!summaryCollapsed && (
+              <div className="px-4 pb-4 space-y-2.5 border-t border-[#1a1d24]">
+                <div className="pt-3 space-y-2.5">
+                  <MacroBar label="热量" value={totals.calories} target={targets.calories} unit="kcal" color="#f97316" />
+                  <MacroBar label="蛋白质" value={totals.protein} target={targets.protein} unit="g" color="#a78bfa" />
+                  <MacroBar label="碳水" value={totals.carbs} target={targets.carbs} unit="g" color="#22d3ee" />
+                  <MacroBar label="脂肪" value={totals.fat} target={targets.fat} unit="g" color="#4ade80" />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -391,7 +408,7 @@ function AddFoodForm({ mealType, date, onConfirm, onCancel }: AddFoodFormProps) 
         </div>
         {/* Dropdown */}
         {showDropdown && results.length > 0 && (
-          <ul className="absolute z-50 left-0 right-0 top-full mt-1 rounded-lg bg-[#111318] border border-[#252830] shadow-xl overflow-hidden">
+          <ul className="absolute z-50 left-0 right-0 top-full mt-1 rounded-lg bg-[#111318] border border-[#252830] shadow-xl max-h-[300px] overflow-y-auto">
             {results.map((food) => (
               <li key={food.id}>
                 <button

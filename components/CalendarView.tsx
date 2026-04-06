@@ -212,6 +212,23 @@ export default function CalendarView() {
           <span className="text-xs text-[#6b7280]">饮食</span>
         </div>
       </div>
+
+      {/* Empty state hint */}
+      {workouts.length === 0 && (
+        <div className="mt-6 flex flex-col items-center gap-2 py-6 rounded-xl border border-dashed border-[#252830] text-center">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" className="opacity-30">
+            <rect x="8" y="12" width="32" height="28" rx="4" stroke="#f97316" strokeWidth="2" />
+            <rect x="8" y="12" width="32" height="9" rx="4" stroke="#f97316" strokeWidth="2" />
+            <circle cx="17" cy="16.5" r="2" fill="#f97316" />
+            <circle cx="24" cy="16.5" r="2" fill="#f97316" />
+            <circle cx="31" cy="16.5" r="2" fill="#f97316" />
+            <line x1="15" y1="28" x2="33" y2="28" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="15" y1="33" x2="27" y2="33" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+          <p className="text-xs text-[#6b7280]">还没有训练记录</p>
+          <p className="text-[10px] text-[#3f4350]">点击任意日期开始记录训练</p>
+        </div>
+      )}
     </div>
   );
 }

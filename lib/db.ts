@@ -691,3 +691,69 @@ export async function getPublicFeed(): Promise<FeedItem[]> {
     return [];
   }
 }
+
+// ─── Weight Logs ──────────────────────────────────────────────────────────────
+
+const WEIGHT_LOG_KEY = "fitlog_weight_logs";
+
+export interface WeightLog {
+  date: string;
+  weightKg: number;
+}
+
+function readLocalWeightLogs(): WeightLog[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(WEIGHT_LOG_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLocalWeightLog(date: string, weightKg: number): void {
+  if (typeof window === "undefined") return;
+  const logs = readLocalWeightLogs();
+  const idx = logs.findIndex((l) => l.date === date);
+  if (idx >= 0) logs[idx].weightKg = weightKg;
+  else logs.push({ date, weightKg });
+  logs.sort((a, b) => a.date.localeCompare(b.date));
+  localStorage.setItem(WEIGHT_LOG_KEY, JSON.stringify(logs));
+}
+
+export async function logWeight(date: string, weightKg: number): Promise<void> {
+  writeLocalWeightLog(date, weightKg);
+  if (!isSupabaseConfigured) return;
+  const userId = await getCurrentUserId();
+  if (!userId) return;
+  try {
+    const sb = await getBrowserClient();
+    await sb.from("weight_logs").upsert({ user_id: userId, date, weight_kg: weightKg });
+  } catch {
+    // weight_logs table may not exist yet — localStorage fallback already saved
+  }
+}
+
+export async function getWeightLogs(startDate: string, endDate: string): Promise<WeightLog[]> {
+  if (isSupabaseConfigured) {
+    const userId = await getCurrentUserId();
+    if (userId) {
+      try {
+        const sb = await getBrowserClient();
+        const { data, error } = await sb
+          .from("weight_logs")
+          .select("date, weight_kg")
+          .eq("user_id", userId)
+          .gte("date", startDate)
+          .lte("date", endDate)
+          .order("date");
+        if (!error && data?.length) {
+          return (data as {date: string; weight_kg: number}[]).map((r) => ({ date: r.date, weightKg: r.weight_kg }));
+        }
+      } catch {
+        // fall through to localStorage
+      }
+    }
+  }
+  return readLocalWeightLogs().filter((l) => l.date >= startDate && l.date <= endDate);
+}

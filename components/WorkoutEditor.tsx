@@ -5,16 +5,22 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeft, Plus, Trash2, Copy, Save, Lock, Globe,
-  ChevronDown, ChevronUp, Flame, Pencil, Check, X, Utensils,
+  ChevronDown, ChevronUp, Flame, Pencil, Check, X, Utensils, Timer,
 } from "lucide-react";
 import ExercisePicker from "@/components/ExercisePicker";
+import RestTimer from "@/components/RestTimer";
 import {
   getWorkout, saveWorkout, newEmptyWorkout,
   getLastWorkoutBefore,
 } from "@/lib/workoutStore";
 import { estimateCalories, estimateSetCalories, formatPace } from "@/lib/calories";
-import { getMyProfile } from "@/lib/db";
+import { getMyProfile, getAllWorkouts } from "@/lib/db";
+import { epley1RM } from "@/lib/utils";
 import type { WorkoutRecord, WorkoutExercise, SetData } from "@/lib/types";
+
+const PR_KEYWORDS = ["卧推", "深蹲", "硬拉", "引体", "肩推", "腿举", "划船"];
+
+interface PRResult { name: string; rm: number; prev: number | null }
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr + "T00:00:00");
@@ -33,6 +39,8 @@ export default function WorkoutEditor({ date }: Props) {
   const [collapsedIds, setCollapsedIds] = useState<Set<number>>(new Set());
   const [hasLastWorkout, setHasLastWorkout] = useState(false);
   const [bodyWeightKg, setBodyWeightKg] = useState(70);
+  const [showTimer, setShowTimer] = useState(false);
+  const [newPRs, setNewPRs] = useState<PRResult[]>([]);
 
   useEffect(() => {
     getWorkout(date).then((existing) => {
@@ -49,11 +57,52 @@ export default function WorkoutEditor({ date }: Props) {
     setSaved(false);
   }
 
-  function handleSave() {
+  async function handleSave() {
     if (!workout) return;
     void saveWorkout(workout); // saves to localStorage immediately; Supabase async in background
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+
+    // PR check: only for exercises matching PR keywords
+    const prExercises = workout.exercises.filter((ex) =>
+      PR_KEYWORDS.some((kw) => ex.exerciseName.includes(kw))
+    );
+    if (!prExercises.length) return;
+
+    const allWorkouts = await getAllWorkouts();
+    const prs: PRResult[] = [];
+
+    for (const ex of prExercises) {
+      const currentRM = ex.sets.reduce((mx, s) => {
+        if (!s.weight || !s.reps) return mx;
+        return Math.max(mx, epley1RM(s.weight, s.reps));
+      }, 0);
+      if (currentRM === 0) continue;
+
+      const prevRM = allWorkouts
+        .filter((w) => w.date !== date)
+        .reduce((mx, w) => {
+          const histEx = w.exercises.find((e) => e.exerciseName === ex.exerciseName);
+          if (!histEx) return mx;
+          return histEx.sets.reduce((mx2, s) => {
+            if (!s.weight || !s.reps) return mx2;
+            return Math.max(mx2, epley1RM(s.weight, s.reps));
+          }, mx);
+        }, 0);
+
+      if (currentRM > prevRM) {
+        prs.push({
+          name: ex.exerciseName,
+          rm: Math.round(currentRM * 10) / 10,
+          prev: prevRM > 0 ? Math.round(prevRM * 10) / 10 : null,
+        });
+      }
+    }
+
+    if (prs.length > 0) {
+      setNewPRs(prs);
+      setTimeout(() => setNewPRs([]), 10000);
+    }
   }
 
   async function handleCopyLast() {
@@ -233,7 +282,7 @@ export default function WorkoutEditor({ date }: Props) {
       </div>
 
       {/* Action buttons */}
-      <div className="flex gap-2 mb-5 flex-wrap">
+      <div className="flex gap-2 mb-3 flex-wrap">
         <button
           onClick={() => setShowPicker(true)}
           className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#f97316] text-white text-sm font-semibold hover:bg-[#ea6c0a] transition-colors"
@@ -250,7 +299,54 @@ export default function WorkoutEditor({ date }: Props) {
             复制上次训练
           </button>
         )}
+        <button
+          onClick={() => setShowTimer((v) => !v)}
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors border ${
+            showTimer
+              ? "bg-[#f97316]/10 text-[#f97316] border-[#f97316]/30"
+              : "bg-[#1a1d24] text-[#6b7280] hover:text-[#f0f2f5] border-[#252830]"
+          }`}
+        >
+          <Timer size={14} />
+          计时器
+        </button>
       </div>
+
+      {/* Rest timer */}
+      {showTimer && (
+        <div className="mb-4">
+          <RestTimer onClose={() => setShowTimer(false)} />
+        </div>
+      )}
+
+      {/* PR banner */}
+      {newPRs.length > 0 && (
+        <div className="mb-4 px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/25">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <span className="text-base">🏆</span>
+              <span className="text-sm font-bold text-amber-400">新个人记录！</span>
+            </div>
+            <button onClick={() => setNewPRs([])} className="text-[#3f4350] hover:text-[#6b7280]">
+              <X size={13} />
+            </button>
+          </div>
+          <div className="space-y-1">
+            {newPRs.map((pr) => (
+              <div key={pr.name} className="flex items-center gap-2 text-xs">
+                <span className="text-[#f0f2f5] font-medium">{pr.name}</span>
+                <span className="font-bold text-amber-400">{pr.rm} kg 1RM</span>
+                {pr.prev !== null && (
+                  <span className="text-[#6b7280]">（超越 {pr.prev} kg）</span>
+                )}
+                {pr.prev === null && (
+                  <span className="text-[#6b7280]">（首次记录）</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Exercises */}
       {workout.exercises.length === 0 ? (

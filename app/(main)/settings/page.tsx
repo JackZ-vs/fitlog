@@ -9,6 +9,7 @@ import {
   getWeeklyGoal, setWeeklyGoal,
   getDefaultIsPublic, setDefaultIsPublic,
   isSupabaseConfigured,
+  logWeight,
 } from "@/lib/db";
 import type { Profile } from "@/lib/db";
 import type { DailyTargets } from "@/lib/types";
@@ -94,6 +95,10 @@ export default function SettingsPage() {
       gender: (gender || null) as "male" | "female" | "other" | null,
       restingHeartRate: restingHR ? Number(restingHR) : null,
     });
+    if (weightKg) {
+      const today = new Date().toISOString().slice(0, 10);
+      void logWeight(today, Number(weightKg));
+    }
     flash("profile");
   }
 

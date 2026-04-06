@@ -108,13 +108,23 @@ export default function FeedPage() {
         </div>
       ) : items.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="text-4xl mb-4">🏋️</div>
-          <p className="text-sm font-medium text-[#f0f2f5] mb-1">还没有公开训练记录</p>
-          <p className="text-xs text-[#6b7280] mb-4">快去完成一次训练并设为公开吧</p>
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" className="mb-5 opacity-30">
+            {/* Two overlapping speech bubbles */}
+            <rect x="8" y="14" width="42" height="28" rx="8" stroke="#22d3ee" strokeWidth="2.5" />
+            <path d="M14 42 L10 52 L24 42" fill="none" stroke="#22d3ee" strokeWidth="2.5" strokeLinejoin="round" />
+            <rect x="30" y="34" width="42" height="24" rx="8" stroke="#f97316" strokeWidth="2.5" />
+            <path d="M66 58 L70 66 L56 58" fill="none" stroke="#f97316" strokeWidth="2.5" strokeLinejoin="round" />
+            <circle cx="22" cy="28" r="2.5" fill="#22d3ee" />
+            <circle cx="29" cy="28" r="2.5" fill="#22d3ee" />
+            <circle cx="36" cy="28" r="2.5" fill="#22d3ee" />
+          </svg>
+          <p className="text-sm font-medium text-[#f0f2f5] mb-1">还没有公开训练</p>
+          <p className="text-xs text-[#6b7280] mb-6">完成训练后设为公开，和大家一起分享进步</p>
           <Link
             href={`/workout/${new Date().toISOString().slice(0, 10)}`}
-            className="px-4 py-2 rounded-lg bg-[#f97316] text-white text-sm font-semibold hover:bg-[#ea6c0a] transition-colors"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#f97316] text-white text-sm font-bold hover:bg-[#ea6c0a] transition-colors"
           >
+            <Dumbbell size={15} strokeWidth={2.5} />
             开始训练
           </Link>
         </div>

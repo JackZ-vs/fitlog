@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   ResponsiveContainer,
   LineChart, Line,
@@ -8,8 +9,9 @@ import {
   PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine,
 } from "recharts";
-import { TrendingUp, TrendingDown, Minus, Dumbbell, Flame, Activity, Beef } from "lucide-react";
-import { getAllWorkouts, getMealsInRange, getDailyTargets } from "@/lib/db";
+import { TrendingUp, TrendingDown, Minus, Dumbbell, Flame, Activity, Beef, Trophy, FileText } from "lucide-react";
+import { getAllWorkouts, getMealsInRange, getDailyTargets, getWeightLogs, logWeight } from "@/lib/db";
+import type { WeightLog } from "@/lib/db";
 import { DEFAULT_TARGETS } from "@/lib/types";
 import type { WorkoutRecord, MealEntry, DailyTargets } from "@/lib/types";
 import { epley1RM, workoutVolume, weekRange, weekMonday, toMuscleGroup } from "@/lib/utils";
@@ -61,6 +63,7 @@ export default function StatsPage() {
   const [workouts, setWorkouts] = useState<WorkoutRecord[]>([]);
   const [meals, setMeals] = useState<MealEntry[]>([]);
   const [targets, setTargets] = useState<DailyTargets>(DEFAULT_TARGETS);
+  const [weightLogs, setWeightLogs] = useState<WeightLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<TrendTab>(0);
   const [timeRange, setTimeRange] = useState<TimeRange>("1m");
@@ -69,14 +72,19 @@ export default function StatsPage() {
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
     const [start90] = weekRange(13);
+    const twoYearsAgo = new Date();
+    twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+    const startWeight = twoYearsAgo.toISOString().slice(0, 10);
     Promise.all([
       getAllWorkouts(),
       getMealsInRange(start90, today),
       getDailyTargets(),
-    ]).then(([ws, ms, t]) => {
+      getWeightLogs(startWeight, today),
+    ]).then(([ws, ms, t, wl]) => {
       setWorkouts(ws);
       setMeals(ms);
       setTargets(t);
+      setWeightLogs(wl);
       setLoading(false);
       // Auto-select most frequent exercise
       const freq = new Map<string, number>();
@@ -97,13 +105,25 @@ export default function StatsPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-6 md:px-6 md:py-8 pb-20">
-      <h1 className="text-2xl font-bold text-[#f0f2f5] mb-6">数据统计</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-[#f0f2f5]">数据统计</h1>
+        <Link
+          href={`/stats/report?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}`}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1a1d24] text-[#6b7280] text-xs hover:text-[#f0f2f5] border border-[#252830] transition-colors"
+        >
+          <FileText size={13} />
+          月度报告
+        </Link>
+      </div>
       <KpiSection workouts={workouts} meals={meals} targets={targets} />
+      <PRSection workouts={workouts} />
       <MuscleSection workouts={workouts} />
       <TrendSection
         workouts={workouts}
         meals={meals}
         targets={targets}
+        weightLogs={weightLogs}
+        setWeightLogs={setWeightLogs}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         timeRange={timeRange}
@@ -111,6 +131,80 @@ export default function StatsPage() {
         selectedExercise={selectedExercise}
         setSelectedExercise={setSelectedExercise}
       />
+    </div>
+  );
+}
+
+// ── PR Section ────────────────────────────────────────────────────────────────
+
+// Keyword → display label mapping for grouping similar exercises
+const PR_KEYWORDS: { kw: string; label: string }[] = [
+  { kw: "卧推", label: "卧推" },
+  { kw: "深蹲", label: "深蹲" },
+  { kw: "硬拉", label: "硬拉" },
+  { kw: "引体", label: "引体向上" },
+  { kw: "肩推", label: "肩推" },
+  { kw: "划船", label: "划船" },
+  { kw: "腿举", label: "腿举" },
+  { kw: "弯举", label: "弯举" },
+  { kw: "臂屈伸", label: "臂屈伸" },
+];
+
+interface PREntry {
+  exerciseName: string;  // actual name from data
+  label: string;         // display label (keyword group)
+  rm: number;
+  weight: number;
+  reps: number;
+  date: string;
+}
+
+function PRSection({ workouts }: { workouts: WorkoutRecord[] }) {
+  // One best-1RM entry per keyword group
+  const bestMap = new Map<string, PREntry>();
+
+  for (const w of workouts) {
+    for (const ex of w.exercises) {
+      for (const { kw, label } of PR_KEYWORDS) {
+        if (!ex.exerciseName.includes(kw)) continue;
+        for (const s of ex.sets) {
+          if (!s.weight || !s.reps) continue;
+          const rm = epley1RM(s.weight, s.reps);
+          const current = bestMap.get(kw);
+          if (!current || rm > current.rm) {
+            bestMap.set(kw, {
+              exerciseName: ex.exerciseName,
+              label,
+              rm: Math.round(rm * 10) / 10,
+              weight: s.weight,
+              reps: s.reps,
+              date: w.date,
+            });
+          }
+        }
+      }
+    }
+  }
+
+  const prs = [...bestMap.values()];
+  if (!prs.length) return null;
+
+  return (
+    <div className="rounded-xl bg-[#111318] border border-[#252830] p-4 mb-6">
+      <div className="flex items-center gap-2 mb-4">
+        <Trophy size={16} className="text-amber-400" />
+        <p className="text-sm font-semibold text-[#f0f2f5]">个人最佳（1RM 估算）</p>
+        <span className="ml-auto text-[10px] text-[#3f4350]">Epley 公式</span>
+      </div>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+        {prs.map((pr) => (
+          <div key={pr.label} className="rounded-lg bg-[#1a1d24] border border-[#252830] px-3 py-2.5">
+            <p className="text-[11px] text-[#6b7280] truncate" title={pr.exerciseName}>{pr.exerciseName}</p>
+            <p className="text-base font-bold text-amber-400 mt-0.5">{pr.rm} <span className="text-xs font-normal text-[#6b7280]">kg</span></p>
+            <p className="text-[10px] text-[#3f4350] mt-0.5">{pr.weight}kg × {pr.reps}次 · {pr.date.slice(5)}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -362,12 +456,13 @@ function MuscleSection({ workouts }: { workouts: WorkoutRecord[] }) {
 
 // ── Trend Section ─────────────────────────────────────────────────────────────
 function TrendSection({
-  workouts, meals, targets,
+  workouts, meals, targets, weightLogs, setWeightLogs,
   activeTab, setActiveTab,
   timeRange, setTimeRange,
   selectedExercise, setSelectedExercise,
 }: {
   workouts: WorkoutRecord[]; meals: MealEntry[]; targets: DailyTargets;
+  weightLogs: WeightLog[]; setWeightLogs: (wl: WeightLog[]) => void;
   activeTab: TrendTab; setActiveTab: (t: TrendTab) => void;
   timeRange: TimeRange; setTimeRange: (t: TimeRange) => void;
   selectedExercise: string; setSelectedExercise: (e: string) => void;
@@ -421,6 +516,17 @@ function TrendSection({
       protein: prev.protein + (m.protein ?? 0),
     });
   }
+  // ─── Tab 3: Weight trend ──────────────────────────────────────────────────
+  const weightData = weightLogs
+    .filter((l) => l.date >= cut)
+    .map((l) => ({ date: fmtDate(l.date), weight: l.weightKg }));
+
+  const latestWeight = weightLogs.length > 0 ? weightLogs[weightLogs.length - 1].weightKg : null;
+  const prevWeight = weightLogs.length > 1 ? weightLogs[weightLogs.length - 2].weightKg : null;
+  const weightDelta = latestWeight !== null && prevWeight !== null
+    ? Math.round((latestWeight - prevWeight) * 10) / 10
+    : null;
+
   const hasMeals = mealsByDate.size > 0;
   const nutritionData = hasMeals
     ? [...mealsByDate.entries()]
@@ -450,24 +556,22 @@ function TrendSection({
       </div>
 
       <div className="p-4">
-        {/* Time range selector (not shown for body weight placeholder) */}
-        {activeTab !== 3 && (
-          <div className="flex gap-1.5 mb-4 flex-wrap">
-            {TIME_RANGES.map(({ label, value }) => (
-              <button
-                key={value}
-                onClick={() => setTimeRange(value)}
-                className={`px-2.5 py-1 rounded-md text-xs transition-colors ${
-                  timeRange === value
-                    ? "bg-[#f97316] text-white"
-                    : "bg-[#1a1d24] text-[#6b7280] hover:text-[#f0f2f5]"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        )}
+        {/* Time range selector */}
+        <div className="flex gap-1.5 mb-4 flex-wrap">
+          {TIME_RANGES.map(({ label, value }) => (
+            <button
+              key={value}
+              onClick={() => setTimeRange(value)}
+              className={`px-2.5 py-1 rounded-md text-xs transition-colors ${
+                timeRange === value
+                  ? "bg-[#f97316] text-white"
+                  : "bg-[#1a1d24] text-[#6b7280] hover:text-[#f0f2f5]"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
 
         {/* ── Tab 0: Strength ── */}
         {activeTab === 0 && (
@@ -563,15 +667,134 @@ function TrendSection({
           </div>
         )}
 
-        {/* ── Tab 3: Body weight placeholder ── */}
+        {/* ── Tab 3: Body weight trend ── */}
         {activeTab === 3 && (
-          <div className="flex flex-col items-center justify-center h-48 text-[#6b7280]">
-            <p className="text-2xl mb-2">⚖️</p>
-            <p className="text-sm font-medium text-[#f0f2f5]">体重趋势</p>
-            <p className="text-xs mt-1">敬请期待</p>
-          </div>
+          <WeightTrendTab
+            weightLogs={weightLogs}
+            setWeightLogs={setWeightLogs}
+            weightData={weightData}
+            latestWeight={latestWeight}
+            weightDelta={weightDelta}
+          />
         )}
       </div>
+    </div>
+  );
+}
+
+// ── Weight Trend Tab ──────────────────────────────────────────────────────────
+function WeightTrendTab({
+  weightLogs, setWeightLogs, weightData, latestWeight, weightDelta,
+}: {
+  weightLogs: WeightLog[];
+  setWeightLogs: (wl: WeightLog[]) => void;
+  weightData: { date: string; weight: number }[];
+  latestWeight: number | null;
+  weightDelta: number | null;
+}) {
+  const [inputVal, setInputVal] = useState("");
+  const [logging, setLogging] = useState(false);
+
+  async function handleLog() {
+    const kg = parseFloat(inputVal);
+    if (!kg || kg < 20 || kg > 300) return;
+    setLogging(true);
+    const today = new Date().toISOString().slice(0, 10);
+    await logWeight(today, kg);
+    // Update local state optimistically
+    const updated = [...weightLogs];
+    const idx = updated.findIndex((l) => l.date === today);
+    if (idx >= 0) updated[idx].weightKg = kg;
+    else updated.push({ date: today, weightKg: kg });
+    updated.sort((a, b) => a.date.localeCompare(b.date));
+    setWeightLogs(updated);
+    setInputVal("");
+    setLogging(false);
+  }
+
+  const up = weightDelta !== null && weightDelta > 0;
+  const down = weightDelta !== null && weightDelta < 0;
+
+  return (
+    <div>
+      {/* Quick log */}
+      <div className="flex items-center gap-2 mb-4">
+        <input
+          type="number"
+          inputMode="decimal"
+          value={inputVal}
+          onChange={(e) => setInputVal(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleLog()}
+          placeholder="今日体重 (kg)"
+          step={0.1}
+          min={20}
+          max={300}
+          className="flex-1 px-3 py-2 rounded-lg bg-[#1a1d24] border border-[#252830] text-[#f0f2f5] text-sm placeholder:text-[#3f4350] focus:outline-none focus:border-[#f97316] transition-colors"
+        />
+        <button
+          onClick={handleLog}
+          disabled={logging || !inputVal}
+          className="px-3 py-2 rounded-lg bg-[#f97316] text-white text-sm font-semibold disabled:opacity-40 hover:bg-[#ea6c0a] transition-colors"
+        >
+          记录
+        </button>
+      </div>
+
+      {/* Summary */}
+      {latestWeight !== null && (
+        <div className="flex items-center gap-3 mb-4 px-3 py-2.5 rounded-lg bg-[#1a1d24]">
+          <span className="text-xl">⚖️</span>
+          <div>
+            <p className="text-[10px] text-[#6b7280]">最新体重</p>
+            <p className="text-lg font-bold text-[#f0f2f5] leading-tight">{latestWeight} kg</p>
+          </div>
+          {weightDelta !== null && (
+            <div className="ml-auto text-right">
+              <p className="text-[10px] text-[#6b7280]">较上次</p>
+              <p
+                className="text-sm font-semibold"
+                style={{ color: up ? "#f87171" : down ? "#4ade80" : "#6b7280" }}
+              >
+                {up ? "▲" : down ? "▼" : "—"} {Math.abs(weightDelta)} kg
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Chart */}
+      {weightData.length < 2 ? (
+        <EmptyChart label={weightLogs.length === 0 ? "暂无体重记录，在上方输入今日体重" : "数据不足，需至少2条记录"} />
+      ) : (
+        <>
+          <p className="text-[10px] text-[#6b7280] mb-2">体重趋势（kg）</p>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={weightData} margin={{ top: 4, right: 8, bottom: 0, left: -10 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={GRID} />
+              <XAxis dataKey="date" tick={{ fill: AXIS_COLOR, fontSize: 10 }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
+              <YAxis
+                tick={{ fill: AXIS_COLOR, fontSize: 10 }}
+                tickLine={false}
+                axisLine={false}
+                domain={["auto", "auto"]}
+              />
+              <Tooltip
+                contentStyle={{ background: "#1a1d24", border: "1px solid #252830", borderRadius: 8, fontSize: 12 }}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                formatter={(v: any) => [`${v} kg`, "体重"]}
+              />
+              <Line
+                type="monotone"
+                dataKey="weight"
+                stroke="#4ade80"
+                strokeWidth={2}
+                dot={{ fill: "#4ade80", r: 3 }}
+                activeDot={{ r: 5 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </>
+      )}
     </div>
   );
 }

@@ -121,39 +121,46 @@ export default function ExercisePicker({ onAdd, onClose }: ExercisePickerProps) 
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7280]" />
             <input
               type="text"
+              autoFocus
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="搜索动作..."
+              placeholder="搜索动作名称或英文…"
               className="w-full pl-9 pr-4 py-2.5 rounded-lg bg-[#1a1d24] border border-[#252830] text-[#f0f2f5] text-sm placeholder:text-[#3f4350] focus:outline-none focus:border-[#f97316] transition-colors"
             />
           </div>
         </div>
 
-        {/* Filter tabs — type */}
-        <div className="flex gap-2 overflow-x-auto px-4 py-2.5 shrink-0 scrollbar-none">
-          <FilterTab label="全部" active={!selectedType} onClick={() => setSelectedType(null)} />
-          {types.map((t) => (
-            <FilterTab
-              key={t}
-              label={t}
-              active={selectedType === t}
-              color={TYPE_COLORS[t]}
-              onClick={() => setSelectedType(selectedType === t ? null : t)}
-            />
-          ))}
+        {/* Filter: type */}
+        <div className="px-4 pt-2 pb-1 shrink-0">
+          <p className="text-[10px] text-[#3f4350] mb-1.5 font-medium uppercase tracking-wide">类型</p>
+          <div className="flex gap-1.5 overflow-x-auto scrollbar-none">
+            <FilterTab label="全部" active={!selectedType} onClick={() => setSelectedType(null)} />
+            {types.map((t) => (
+              <FilterTab
+                key={t}
+                label={t}
+                active={selectedType === t}
+                color={TYPE_COLORS[t]}
+                onClick={() => setSelectedType(selectedType === t ? null : t)}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Filter tabs — muscle */}
-        <div className="flex gap-2 overflow-x-auto px-4 pb-2.5 shrink-0 scrollbar-none">
-          <FilterTab label="所有部位" active={!selectedMuscle} onClick={() => setSelectedMuscle(null)} />
-          {MUSCLE_GROUPS.map(({ label }) => (
-            <FilterTab
-              key={label}
-              label={label}
-              active={selectedMuscle === label}
-              onClick={() => setSelectedMuscle(selectedMuscle === label ? null : label)}
-            />
-          ))}
+        {/* Filter: muscle group */}
+        <div className="px-4 pt-1 pb-2.5 shrink-0">
+          <p className="text-[10px] text-[#3f4350] mb-1.5 font-medium uppercase tracking-wide">部位</p>
+          <div className="flex gap-1.5 overflow-x-auto scrollbar-none">
+            <FilterTab label="所有" active={!selectedMuscle} onClick={() => setSelectedMuscle(null)} />
+            {MUSCLE_GROUPS.map(({ label }) => (
+              <FilterTab
+                key={label}
+                label={label}
+                active={selectedMuscle === label}
+                onClick={() => setSelectedMuscle(selectedMuscle === label ? null : label)}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Exercise list */}
