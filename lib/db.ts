@@ -281,7 +281,7 @@ export async function saveWorkout(workout: WorkoutRecord): Promise<void> {
     // Replace sets atomically
     await sb.from("workout_sets").delete().eq("workout_id", w.id);
 
-    const rows = workout.exercises.flatMap((ex, _ei) =>
+    const rows = workout.exercises.flatMap((ex) =>
       ex.sets.map((set, si) => ({
         workout_id: w.id,
         exercise_id: ex.exerciseId,

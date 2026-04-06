@@ -23,16 +23,6 @@ const MUSCLE_COLORS: Record<string, string> = {
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-function datesBetween(start: string, end: string): string[] {
-  const dates: string[] = [];
-  const d = new Date(start + "T00:00:00");
-  const e = new Date(end + "T00:00:00");
-  while (d <= e) {
-    dates.push(d.toISOString().slice(0, 10));
-    d.setDate(d.getDate() + 1);
-  }
-  return dates;
-}
 
 function fmtDate(d: string) {
   return d.slice(5); // "MM-DD"
@@ -165,7 +155,6 @@ function KpiSection({
           value={`${thisWeek.length} 次`}
           prev={lastWeek.length}
           curr={thisWeek.length}
-          unit="次"
           accent="#f97316"
         />
         <KpiCard
@@ -174,7 +163,6 @@ function KpiSection({
           value={thisVol >= 1000 ? `${(thisVol / 1000).toFixed(1)}t` : `${thisVol} kg`}
           prev={lastVol}
           curr={thisVol}
-          unit="kg"
           accent="#22d3ee"
         />
         <KpiCard
@@ -183,7 +171,6 @@ function KpiSection({
           value={thisCalAvg !== null ? `${thisCalAvg} kcal` : "暂无数据"}
           prev={lastCalAvg}
           curr={thisCalAvg}
-          unit="kcal"
           accent="#facc15"
         />
         <KpiCard
@@ -192,7 +179,6 @@ function KpiSection({
           value={thisPrAvg !== null ? `${thisPrAvg} g` : "暂无数据"}
           prev={lastPrAvg}
           curr={thisPrAvg}
-          unit="g"
           accent="#a78bfa"
           target={targets.protein}
         />
@@ -212,14 +198,13 @@ function KpiSection({
 }
 
 function KpiCard({
-  icon, label, value, prev, curr, unit, accent, target,
+  icon, label, value, prev, curr, accent, target,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   prev: number | null;
   curr: number | null;
-  unit: string;
   accent: string;
   target?: number;
 }) {
@@ -388,7 +373,6 @@ function TrendSection({
   selectedExercise: string; setSelectedExercise: (e: string) => void;
 }) {
   // Compute cutoff date for time range filter
-  const today = new Date().toISOString().slice(0, 10);
   function cutoff() {
     const d = new Date();
     if (timeRange === "1w") d.setDate(d.getDate() - 7);
@@ -509,6 +493,7 @@ function TrendSection({
                     <YAxis tick={{ fill: AXIS_COLOR, fontSize: 10 }} tickLine={false} axisLine={false} />
                     <Tooltip
                       contentStyle={{ background: "#1a1d24", border: "1px solid #252830", borderRadius: 8, fontSize: 12 }}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       formatter={(v: any) => [`${v} kg`, "估算1RM"]}
                     />
                     <Line type="monotone" dataKey="rm" stroke="#f97316" strokeWidth={2} dot={{ fill: "#f97316", r: 3 }} activeDot={{ r: 5 }} />

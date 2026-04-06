@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -252,7 +252,7 @@ export default function WorkoutEditor({ date }: Props) {
       {workout.exercises.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-[#6b7280] border border-dashed border-[#252830] rounded-xl">
           <p className="text-sm mb-1">还没有添加动作</p>
-          <p className="text-xs text-[#3f4350]">点击"添加动作"开始记录</p>
+          <p className="text-xs text-[#3f4350]">点击&ldquo;添加动作&rdquo;开始记录</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -335,7 +335,7 @@ interface ExerciseBlockProps {
 }
 
 function ExerciseBlock({
-  exercise: ex, exIdx, collapsed, onToggleCollapse,
+  exercise: ex, collapsed, onToggleCollapse,
   onRemove, onAddSet, onRemoveSet, onUpdateSet,
 }: ExerciseBlockProps) {
   const isCardio = ex.type === "有氧";
