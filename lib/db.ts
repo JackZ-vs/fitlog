@@ -472,9 +472,19 @@ export async function getDailyTargets(): Promise<DailyTargets> {
   }
 }
 
+const TARGETS_SAVED_KEY = "fitlog_targets_saved";
+export function markTargetsSaved(): void {
+  if (typeof window !== "undefined") localStorage.setItem(TARGETS_SAVED_KEY, "1");
+}
+export function hasTargetsBeenSaved(): boolean {
+  if (typeof window === "undefined") return false;
+  return !!localStorage.getItem(TARGETS_SAVED_KEY);
+}
+
 export async function saveDailyTargets(targets: DailyTargets): Promise<void> {
   if (typeof window !== "undefined") {
     localStorage.setItem(TARGETS_KEY, JSON.stringify(targets));
+    markTargetsSaved();
   }
   if (!isSupabaseConfigured) return;
   const userId = await getCurrentUserId();
@@ -639,29 +649,44 @@ export async function getPublicFeed(): Promise<FeedItem[]> {
   }
   try {
     const sb = await getBrowserClient();
-    const { data, error } = await sb
+
+    // Step 1: fetch public workouts (workouts.user_id → auth.users, no direct FK to profiles)
+    const { data: workoutRows, error: wErr } = await sb
       .from("workouts")
       .select(`
-        id, date, name, estimated_calories,
-        user_id,
-        profiles!inner(username, display_name),
-        workout_sets(set_number, weight, reps, duration,
+        id, date, name, estimated_calories, user_id,
+        workout_sets(set_number, weight, reps, duration, distance_km,
           exercise:exercises(id, name, type, primary_muscles, met))
       `)
       .eq("is_public", true)
       .order("date", { ascending: false })
       .limit(50);
 
-    if (error || !data) return [];
+    if (wErr || !workoutRows?.length) return [];
+
+    // Step 2: fetch profiles for the authors
+    const userIds = [...new Set(workoutRows.map((r) => r.user_id as string))];
+    const { data: profileRows } = await sb
+      .from("profiles")
+      .select("id, username, display_name")
+      .in("id", userIds);
+
+    const profileMap = new Map(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (profileRows ?? []).map((p: any) => [p.id, p])
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return data.map((row: any) => ({
-      ...dbRowToWorkout(row),
-      estimatedCalories: row.estimated_calories ?? null,
-      userId: row.user_id,
-      username: row.profiles?.username ?? "unknown",
-      displayName: row.profiles?.display_name ?? row.profiles?.username ?? "用户",
-    }));
+    return workoutRows.map((row: any) => {
+      const profile = profileMap.get(row.user_id);
+      return {
+        ...dbRowToWorkout(row),
+        estimatedCalories: row.estimated_calories ?? null,
+        userId: row.user_id,
+        username: profile?.username ?? "unknown",
+        displayName: profile?.display_name ?? profile?.username ?? "用户",
+      };
+    });
   } catch {
     return [];
   }

@@ -1,6 +1,6 @@
 import type { Profile } from "./db";
+import { hasTargetsBeenSaved } from "./db";
 import type { DailyTargets } from "./types";
-import { DEFAULT_TARGETS } from "./types";
 
 export interface OnboardingTip {
   id: string;
@@ -13,7 +13,8 @@ export interface OnboardingTip {
 export function getOnboardingTips(
   profile: Profile | null,
   workoutCount: number,
-  targets: DailyTargets,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _targets: DailyTargets,
 ): OnboardingTip[] {
   const tips: OnboardingTip[] = [];
 
@@ -35,11 +36,7 @@ export function getOnboardingTips(
     });
   }
 
-  const hasCustomTargets =
-    targets.calories !== DEFAULT_TARGETS.calories ||
-    targets.protein !== DEFAULT_TARGETS.protein;
-
-  if (!hasCustomTargets) {
+  if (!hasTargetsBeenSaved()) {
     tips.push({
       id: "set-targets",
       message: "设置每日营养目标以追踪饮食达成率",
