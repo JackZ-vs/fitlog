@@ -1,0 +1,215 @@
+[
+  {
+    "id": "mock-2026-04-01",
+    "date": "2026-04-01",
+    "name": "推日",
+    "isPublic": true,
+    "notes": "状态很好，卧推感觉最强的一次，胸肌泵感很棒",
+    "exercises": [
+      {
+        "exerciseId": 67,
+        "exerciseName": "平板杠铃卧推",
+        "primaryMuscles": ["胸"],
+        "type": "肌肥大",
+        "met": 6,
+        "sets": [
+          { "weight": 60, "reps": 10, "duration": null },
+          { "weight": 80, "reps": 8, "duration": null },
+          { "weight": 80, "reps": 7, "duration": null },
+          { "weight": 75, "reps": 8, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 68,
+        "exerciseName": "上斜哑铃卧推",
+        "primaryMuscles": ["胸(上部)", "肩前束"],
+        "type": "肌肥大",
+        "met": 5,
+        "sets": [
+          { "weight": 22, "reps": 12, "duration": null },
+          { "weight": 24, "reps": 10, "duration": null },
+          { "weight": 24, "reps": 9, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 85,
+        "exerciseName": "哑铃侧平举",
+        "primaryMuscles": ["肩中束"],
+        "type": "肌肥大",
+        "met": 4,
+        "sets": [
+          { "weight": 10, "reps": 15, "duration": null },
+          { "weight": 10, "reps": 15, "duration": null },
+          { "weight": 10, "reps": 12, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 95,
+        "exerciseName": "绳索下压",
+        "primaryMuscles": ["三头"],
+        "type": "肌肥大",
+        "met": 4,
+        "sets": [
+          { "weight": 30, "reps": 15, "duration": null },
+          { "weight": 35, "reps": 12, "duration": null },
+          { "weight": 35, "reps": 11, "duration": null }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mock-2026-04-02",
+    "date": "2026-04-02",
+    "name": "背+二头",
+    "isPublic": false,
+    "notes": "引体向上进步了，终于能做10个了",
+    "exercises": [
+      {
+        "exerciseId": 74,
+        "exerciseName": "引体向上",
+        "primaryMuscles": ["背阔肌", "二头"],
+        "type": "肌肥大",
+        "met": 8,
+        "sets": [
+          { "weight": null, "reps": 10, "duration": null },
+          { "weight": null, "reps": 8, "duration": null },
+          { "weight": null, "reps": 7, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 77,
+        "exerciseName": "坐姿划船",
+        "primaryMuscles": ["背(中部)", "斜方肌"],
+        "type": "肌肥大",
+        "met": 5,
+        "sets": [
+          { "weight": 50, "reps": 12, "duration": null },
+          { "weight": 55, "reps": 10, "duration": null },
+          { "weight": 55, "reps": 10, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 89,
+        "exerciseName": "杠铃弯举",
+        "primaryMuscles": ["二头"],
+        "type": "肌肥大",
+        "met": 4,
+        "sets": [
+          { "weight": 30, "reps": 12, "duration": null },
+          { "weight": 30, "reps": 10, "duration": null },
+          { "weight": 25, "reps": 12, "duration": null }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mock-2026-04-04",
+    "date": "2026-04-04",
+    "name": "腿日",
+    "isPublic": true,
+    "notes": "深蹲到腿软，腿日永远是最痛苦的",
+    "exercises": [
+      {
+        "exerciseId": 101,
+        "exerciseName": "杠铃深蹲",
+        "primaryMuscles": ["股四", "臀"],
+        "type": "肌肥大",
+        "met": 8,
+        "sets": [
+          { "weight": 60, "reps": 10, "duration": null },
+          { "weight": 80, "reps": 8, "duration": null },
+          { "weight": 90, "reps": 6, "duration": null },
+          { "weight": 80, "reps": 8, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 107,
+        "exerciseName": "直腿硬拉",
+        "primaryMuscles": ["腿后侧", "臀"],
+        "type": "肌肥大",
+        "met": 7,
+        "sets": [
+          { "weight": 60, "reps": 10, "duration": null },
+          { "weight": 70, "reps": 8, "duration": null },
+          { "weight": 70, "reps": 8, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 104,
+        "exerciseName": "腿屈伸",
+        "primaryMuscles": ["股四"],
+        "type": "肌肥大",
+        "met": 5,
+        "sets": [
+          { "weight": 40, "reps": 15, "duration": null },
+          { "weight": 45, "reps": 12, "duration": null },
+          { "weight": 45, "reps": 12, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 114,
+        "exerciseName": "站姿提踵",
+        "primaryMuscles": ["小腿(腓肠肌)"],
+        "type": "肌肥大",
+        "met": 4,
+        "sets": [
+          { "weight": null, "reps": 20, "duration": null },
+          { "weight": null, "reps": 20, "duration": null },
+          { "weight": null, "reps": 18, "duration": null }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mock-2026-04-05",
+    "date": "2026-04-05",
+    "name": "有氧",
+    "isPublic": false,
+    "notes": "跑了40分钟，心率保持在145左右，感觉很好",
+    "exercises": [
+      {
+        "exerciseId": 122,
+        "exerciseName": "跑步机",
+        "primaryMuscles": ["全身"],
+        "type": "有氧",
+        "met": 9.8,
+        "sets": [
+          { "weight": null, "reps": null, "duration": 2400 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mock-2026-04-06",
+    "date": "2026-04-06",
+    "name": "推日",
+    "isPublic": false,
+    "notes": "",
+    "exercises": [
+      {
+        "exerciseId": 67,
+        "exerciseName": "平板杠铃卧推",
+        "primaryMuscles": ["胸"],
+        "type": "肌肥大",
+        "met": 6,
+        "sets": [
+          { "weight": 60, "reps": 10, "duration": null },
+          { "weight": 80, "reps": 8, "duration": null },
+          { "weight": 82.5, "reps": 6, "duration": null }
+        ]
+      },
+      {
+        "exerciseId": 82,
+        "exerciseName": "杠铃推举",
+        "primaryMuscles": ["肩前束", "肩中束"],
+        "type": "肌肥大",
+        "met": 5,
+        "sets": [
+          { "weight": 40, "reps": 10, "duration": null },
+          { "weight": 50, "reps": 8, "duration": null },
+          { "weight": 50, "reps": 7, "duration": null }
+        ]
+      }
+    ]
+  }
+]

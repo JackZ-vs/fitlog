@@ -1,0 +1,2134 @@
+[
+  {
+    "id": 1,
+    "name": "鸟狗式",
+    "nameEn": "Bird Dog",
+    "type": "康复",
+    "primaryMuscles": [
+      "多裂肌",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "四点支撑，对角线抬臂抬腿，保持骨盆稳定"
+  },
+  {
+    "id": 2,
+    "name": "高阶直腿鸟狗",
+    "nameEn": "Straight Leg Bird Dog",
+    "type": "康复",
+    "primaryMuscles": [
+      "多裂肌",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "臀",
+      "肩"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 3.5,
+    "description": "鸟狗式进阶，腿完全伸直"
+  },
+  {
+    "id": 3,
+    "name": "蚌式开合",
+    "nameEn": "Clamshell",
+    "type": "康复",
+    "primaryMuscles": [
+      "臀",
+      "盆底肌"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.5,
+    "description": "侧卧屈膝，膝盖打开合拢，可加弹力带"
+  },
+  {
+    "id": 4,
+    "name": "俯卧抬臀",
+    "nameEn": "Prone Hip Extension",
+    "type": "康复",
+    "primaryMuscles": [
+      "臀",
+      "盆底肌"
+    ],
+    "secondaryMuscles": [
+      "下背"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.5,
+    "description": "俯卧位抬臀激活盆底肌"
+  },
+  {
+    "id": 5,
+    "name": "卷腹摸膝盖",
+    "nameEn": "Crunch Knee Touch",
+    "type": "康复",
+    "primaryMuscles": [
+      "腹横肌",
+      "核心"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "可左右交互，恢复性腹部训练"
+  },
+  {
+    "id": 6,
+    "name": "臀桥及变式",
+    "nameEn": "Glute Bridge Variations",
+    "type": "康复",
+    "primaryMuscles": [
+      "臀",
+      "下背"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "仰卧屈膝抬臀，可单腿/负重变式"
+  },
+  {
+    "id": 7,
+    "name": "超人",
+    "nameEn": "Superman",
+    "type": "康复",
+    "primaryMuscles": [
+      "下背",
+      "多裂肌"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "俯卧同时抬起四肢"
+  },
+  {
+    "id": 8,
+    "name": "金刚桥",
+    "nameEn": "Vajra Bridge",
+    "type": "康复",
+    "primaryMuscles": [
+      "下背",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "恢复性脊柱稳定训练"
+  },
+  {
+    "id": 9,
+    "name": "侧桥",
+    "nameEn": "Side Plank",
+    "type": "康复",
+    "primaryMuscles": [
+      "核心",
+      "腹斜肌"
+    ],
+    "secondaryMuscles": [
+      "肩"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 4.0,
+    "description": "侧卧支撑保持身体一线"
+  },
+  {
+    "id": 10,
+    "name": "平板支撑及变式",
+    "nameEn": "Plank Variations",
+    "type": "康复",
+    "primaryMuscles": [
+      "核心",
+      "腹横肌"
+    ],
+    "secondaryMuscles": [
+      "肩",
+      "臀"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 4.0,
+    "description": "基础核心稳定训练，可加各种变式"
+  },
+  {
+    "id": 11,
+    "name": "马步",
+    "nameEn": "Horse Stance",
+    "type": "康复",
+    "primaryMuscles": [
+      "股四",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 4.5,
+    "description": "静蹲保持，功能性恢复"
+  },
+  {
+    "id": 12,
+    "name": "死虫式",
+    "nameEn": "Dead Bug",
+    "type": "康复",
+    "primaryMuscles": [
+      "腹横肌",
+      "核心"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "仰卧交替伸展对侧手脚，核心抗伸展"
+  },
+  {
+    "id": 13,
+    "name": "麦肯锡卷腹悬停",
+    "nameEn": "McKenzie Crunch Hold",
+    "type": "康复",
+    "primaryMuscles": [
+      "腹横肌",
+      "核心"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 3.5,
+    "description": "卷腹顶端悬停，深层核心激活"
+  },
+  {
+    "id": 14,
+    "name": "剪刀腿",
+    "nameEn": "Scissor Kicks / Bicycle",
+    "type": "康复",
+    "primaryMuscles": [
+      "腹横肌",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "髋屈肌"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "仰卧交替蹬腿，含蹬自行车变式"
+  },
+  {
+    "id": 15,
+    "name": "下犬式",
+    "nameEn": "Downward Dog",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "腿后侧",
+      "小腿"
+    ],
+    "secondaryMuscles": [
+      "肩",
+      "背"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.5,
+    "description": "瑜伽经典体式，全身伸展"
+  },
+  {
+    "id": 16,
+    "name": "抱腿曲腰",
+    "nameEn": "Knee to Chest Stretch",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "下背",
+      "臀"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.0,
+    "description": "仰卧抱膝拉伸下背"
+  },
+  {
+    "id": 17,
+    "name": "平躺腰部旋转拉伸",
+    "nameEn": "Supine Spinal Twist",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "下背",
+      "腹斜肌"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.0,
+    "description": "仰卧屈膝倒向一侧"
+  },
+  {
+    "id": 18,
+    "name": "腰部后仰拉伸",
+    "nameEn": "Cobra / Back Extension Stretch",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "腹部",
+      "髋屈肌"
+    ],
+    "secondaryMuscles": [
+      "下背"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.0,
+    "description": "麦肯锡类后仰拉伸"
+  },
+  {
+    "id": 19,
+    "name": "单膝跪地髂腰肌拉伸",
+    "nameEn": "Half Kneeling Hip Flexor Stretch",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "髋屈肌",
+      "股四"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.5,
+    "description": "弓步跪地拉伸髋前侧"
+  },
+  {
+    "id": 20,
+    "name": "梨状肌和臀部拉伸",
+    "nameEn": "Piriformis Stretch",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "臀",
+      "梨状肌"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.0,
+    "description": "坐姿/仰卧翘腿拉伸"
+  },
+  {
+    "id": 21,
+    "name": "大腿前后侧拉伸",
+    "nameEn": "Quad & Hamstring Stretch",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "股四",
+      "腿后侧"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.5,
+    "description": "站姿/坐姿分别拉伸"
+  },
+  {
+    "id": 22,
+    "name": "髋关节拉伸",
+    "nameEn": "Hip Opener Stretch",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "臀",
+      "髋屈肌"
+    ],
+    "secondaryMuscles": [
+      "内收肌"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.5,
+    "description": "多角度髋关节灵活性训练"
+  },
+  {
+    "id": 23,
+    "name": "天使展翅",
+    "nameEn": "Wall Angel",
+    "type": "拉伸",
+    "primaryMuscles": [
+      "肩",
+      "胸"
+    ],
+    "secondaryMuscles": [
+      "上背"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.0,
+    "description": "靠墙上下滑动手臂，改善圆肩"
+  },
+  {
+    "id": 24,
+    "name": "药球旋转",
+    "nameEn": "Medicine Ball Rotation",
+    "type": "康复",
+    "primaryMuscles": [
+      "核心",
+      "腹斜肌"
+    ],
+    "secondaryMuscles": [
+      "肩"
+    ],
+    "equipment": "药球",
+    "difficulty": "中级",
+    "met": 4.0,
+    "description": "站姿/坐姿持球旋转，抗旋转训练"
+  },
+  {
+    "id": 25,
+    "name": "弹力带抗旋",
+    "nameEn": "Banded Anti-Rotation",
+    "type": "康复",
+    "primaryMuscles": [
+      "核心",
+      "腹斜肌"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "弹力带",
+    "difficulty": "中级",
+    "met": 3.5,
+    "description": "弹力带Pallof Press变式"
+  },
+  {
+    "id": 26,
+    "name": "床沿抬腿",
+    "nameEn": "Bed Edge Leg Raise",
+    "type": "康复",
+    "primaryMuscles": [
+      "腿后侧",
+      "核心"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.0,
+    "description": "神经滑动练习"
+  },
+  {
+    "id": 27,
+    "name": "坐式勾脚尖",
+    "nameEn": "Seated Nerve Glide",
+    "type": "康复",
+    "primaryMuscles": [
+      "腿后侧"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 2.0,
+    "description": "坐姿勾脚做神经滑动"
+  },
+  {
+    "id": 28,
+    "name": "熊爬",
+    "nameEn": "Bear Crawl",
+    "type": "功能性",
+    "primaryMuscles": [
+      "核心",
+      "肩"
+    ],
+    "secondaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 8.0,
+    "description": "四足爬行，全身协调性训练"
+  },
+  {
+    "id": 29,
+    "name": "罗马尼亚硬拉",
+    "nameEn": "Romanian Deadlift",
+    "type": "功能性",
+    "primaryMuscles": [
+      "腿后侧",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "下背"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 6.0,
+    "description": "屈髋动作模式，膝盖微屈下放杠铃"
+  },
+  {
+    "id": 30,
+    "name": "前蹲",
+    "nameEn": "Front Squat",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "高级",
+    "met": 6.0,
+    "description": "杠铃前置深蹲，对核心要求高"
+  },
+  {
+    "id": 31,
+    "name": "箭步蹲",
+    "nameEn": "Lunge",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "前后交替弓步蹲"
+  },
+  {
+    "id": 32,
+    "name": "撤步箭步蹲",
+    "nameEn": "Reverse Lunge",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "后退弓步，膝关节友好"
+  },
+  {
+    "id": 33,
+    "name": "泽奇深蹲",
+    "nameEn": "Zercher Squat",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "臀",
+      "二头"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "高级",
+    "met": 6.0,
+    "description": "杠铃放肘弯处深蹲"
+  },
+  {
+    "id": 34,
+    "name": "哈克蹲",
+    "nameEn": "Hack Squat",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "固定器械",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "器械哈克蹲"
+  },
+  {
+    "id": 35,
+    "name": "壶铃摇摆",
+    "nameEn": "Kettlebell Swing",
+    "type": "功能性",
+    "primaryMuscles": [
+      "臀",
+      "腿后侧"
+    ],
+    "secondaryMuscles": [
+      "核心",
+      "肩"
+    ],
+    "equipment": "壶铃",
+    "difficulty": "中级",
+    "met": 7.0,
+    "description": "爆发力屈髋摆荡"
+  },
+  {
+    "id": 36,
+    "name": "壶铃箭步蹲",
+    "nameEn": "Kettlebell Lunge",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "壶铃",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "壶铃负重弓步"
+  },
+  {
+    "id": 37,
+    "name": "壶铃侧蹲",
+    "nameEn": "Kettlebell Lateral Squat",
+    "type": "功能性",
+    "primaryMuscles": [
+      "内收肌",
+      "股四"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "壶铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "侧向移动蹲"
+  },
+  {
+    "id": 38,
+    "name": "杠铃翻推",
+    "nameEn": "Barbell Clean & Press",
+    "type": "功能性",
+    "primaryMuscles": [
+      "全身",
+      "肩"
+    ],
+    "secondaryMuscles": [
+      "臀",
+      "腿"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "高级",
+    "met": 8.0,
+    "description": "翻杠+推举，全身爆发力"
+  },
+  {
+    "id": 39,
+    "name": "双哑铃翻推",
+    "nameEn": "Dumbbell Clean & Press",
+    "type": "功能性",
+    "primaryMuscles": [
+      "全身",
+      "肩"
+    ],
+    "secondaryMuscles": [
+      "臀",
+      "腿"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "高级",
+    "met": 8.0,
+    "description": "哑铃版翻推"
+  },
+  {
+    "id": 40,
+    "name": "杠铃高抓",
+    "nameEn": "Barbell Power Snatch",
+    "type": "功能性",
+    "primaryMuscles": [
+      "全身",
+      "肩"
+    ],
+    "secondaryMuscles": [
+      "臀",
+      "腿"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "高级",
+    "met": 8.5,
+    "description": "爆发力抓举"
+  },
+  {
+    "id": 41,
+    "name": "臀推",
+    "nameEn": "Hip Thrust",
+    "type": "功能性",
+    "primaryMuscles": [
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "腿后侧",
+      "核心"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "靠凳杠铃臀推"
+  },
+  {
+    "id": 42,
+    "name": "单腿硬拉",
+    "nameEn": "Single Leg Deadlift",
+    "type": "功能性",
+    "primaryMuscles": [
+      "腿后侧",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "单腿平衡+屈髋"
+  },
+  {
+    "id": 43,
+    "name": "附身杠铃划船",
+    "nameEn": "Bent Over Barbell Row",
+    "type": "功能性",
+    "primaryMuscles": [
+      "背",
+      "斜方肌"
+    ],
+    "secondaryMuscles": [
+      "二头",
+      "核心"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "俯身杠铃划船"
+  },
+  {
+    "id": 44,
+    "name": "Burpee",
+    "nameEn": "Burpee",
+    "type": "功能性",
+    "primaryMuscles": [
+      "全身"
+    ],
+    "secondaryMuscles": [
+      "核心",
+      "胸",
+      "腿"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 9.0,
+    "description": "波比跳，全身爆发"
+  },
+  {
+    "id": 45,
+    "name": "实力推",
+    "nameEn": "Strict Press",
+    "type": "功能性",
+    "primaryMuscles": [
+      "肩",
+      "三头"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "站姿严格推举"
+  },
+  {
+    "id": 46,
+    "name": "颈后急推",
+    "nameEn": "Behind Neck Push Press",
+    "type": "功能性",
+    "primaryMuscles": [
+      "肩",
+      "三头"
+    ],
+    "secondaryMuscles": [
+      "核心",
+      "腿"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "高级",
+    "met": 6.0,
+    "description": "颈后借力推举，肩关节灵活性要求高"
+  },
+  {
+    "id": 47,
+    "name": "弹震深蹲",
+    "nameEn": "Pulse Squat",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 6.0,
+    "description": "底部弹震快速蹲"
+  },
+  {
+    "id": 48,
+    "name": "暂停向心蹲",
+    "nameEn": "Pause Squat",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "高级",
+    "met": 6.0,
+    "description": "底部暂停再起，消除弹性势能"
+  },
+  {
+    "id": 49,
+    "name": "跳箱落地",
+    "nameEn": "Box Drop Landing",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "跳箱",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "离心控制训练"
+  },
+  {
+    "id": 50,
+    "name": "跳箱单腿蹲",
+    "nameEn": "Box Pistol Squat",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "跳箱",
+    "difficulty": "高级",
+    "met": 6.0,
+    "description": "单腿蹲在跳箱上"
+  },
+  {
+    "id": 51,
+    "name": "潘德雷划船",
+    "nameEn": "Pendlay Row",
+    "type": "功能性",
+    "primaryMuscles": [
+      "背",
+      "斜方肌"
+    ],
+    "secondaryMuscles": [
+      "二头",
+      "核心"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 6.0,
+    "description": "每次从地面爆发划起"
+  },
+  {
+    "id": 52,
+    "name": "弹力带水平劈",
+    "nameEn": "Banded Horizontal Chop",
+    "type": "功能性",
+    "primaryMuscles": [
+      "核心",
+      "腹斜肌"
+    ],
+    "secondaryMuscles": [
+      "肩"
+    ],
+    "equipment": "弹力带",
+    "difficulty": "中级",
+    "met": 4.0,
+    "description": "旋转核心力量"
+  },
+  {
+    "id": 53,
+    "name": "炮筒旋转",
+    "nameEn": "Landmine Rotation",
+    "type": "功能性",
+    "primaryMuscles": [
+      "核心",
+      "腹斜肌"
+    ],
+    "secondaryMuscles": [
+      "肩"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "地雷管旋转训练"
+  },
+  {
+    "id": 54,
+    "name": "雪橇车",
+    "nameEn": "Sled Push",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心",
+      "小腿"
+    ],
+    "equipment": "雪橇",
+    "difficulty": "中级",
+    "met": 8.0,
+    "description": "推雪橇，心肺+腿部耐力"
+  },
+  {
+    "id": 55,
+    "name": "股二头弯举",
+    "nameEn": "Leg Curl",
+    "type": "功能性",
+    "primaryMuscles": [
+      "腿后侧"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "固定器械",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "器械腿弯举"
+  },
+  {
+    "id": 56,
+    "name": "支撑踏步",
+    "nameEn": "Plank Step",
+    "type": "功能性",
+    "primaryMuscles": [
+      "核心",
+      "肩"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "平板支撑位交替踏步"
+  },
+  {
+    "id": 57,
+    "name": "公事包行走",
+    "nameEn": "Suitcase Carry",
+    "type": "功能性",
+    "primaryMuscles": [
+      "核心",
+      "握力"
+    ],
+    "secondaryMuscles": [
+      "斜方肌"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "单侧负重行走，抗侧屈"
+  },
+  {
+    "id": 58,
+    "name": "Pogo Jump",
+    "nameEn": "Pogo Jump",
+    "type": "功能性",
+    "primaryMuscles": [
+      "小腿",
+      "核心"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 7.0,
+    "description": "弹跳训练，脚踝力量"
+  },
+  {
+    "id": 59,
+    "name": "Bounding前进",
+    "nameEn": "Bounding",
+    "type": "功能性",
+    "primaryMuscles": [
+      "臀",
+      "股四"
+    ],
+    "secondaryMuscles": [
+      "小腿"
+    ],
+    "equipment": "自重",
+    "difficulty": "高级",
+    "met": 8.0,
+    "description": "大步跳跃前进"
+  },
+  {
+    "id": 60,
+    "name": "原地收腹跳",
+    "nameEn": "Tuck Jump",
+    "type": "功能性",
+    "primaryMuscles": [
+      "核心",
+      "股四"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 8.0,
+    "description": "跳起收腹抱膝"
+  },
+  {
+    "id": 61,
+    "name": "头后哑铃臂屈伸",
+    "nameEn": "Overhead DB Tricep Extension",
+    "type": "功能性",
+    "primaryMuscles": [
+      "三头"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "哑铃",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "双手持哑铃头后伸展"
+  },
+  {
+    "id": 62,
+    "name": "棍操",
+    "nameEn": "Stick Mobility",
+    "type": "功能性",
+    "primaryMuscles": [
+      "全身",
+      "肩"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "其他",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "棍棒灵活性操"
+  },
+  {
+    "id": 63,
+    "name": "墙操",
+    "nameEn": "Wall Drill",
+    "type": "功能性",
+    "primaryMuscles": [
+      "核心",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "肩"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "靠墙功能性训练"
+  },
+  {
+    "id": 64,
+    "name": "悬垂脚踢杠",
+    "nameEn": "Hanging Toe to Bar",
+    "type": "功能性",
+    "primaryMuscles": [
+      "核心",
+      "髋屈肌"
+    ],
+    "secondaryMuscles": [
+      "握力"
+    ],
+    "equipment": "单杠",
+    "difficulty": "高级",
+    "met": 6.0,
+    "description": "悬垂举腿触杠"
+  },
+  {
+    "id": 65,
+    "name": "左右跳过杠",
+    "nameEn": "Lateral Bar Hop",
+    "type": "功能性",
+    "primaryMuscles": [
+      "小腿",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "股四"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 7.0,
+    "description": "左右跳过杠铃"
+  },
+  {
+    "id": 66,
+    "name": "顶膝分腿蹲",
+    "nameEn": "Knee Drive Split Squat",
+    "type": "功能性",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "分腿蹲+顶膝"
+  },
+  {
+    "id": 67,
+    "name": "平板杠铃卧推",
+    "nameEn": "Barbell Bench Press",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "胸"
+    ],
+    "secondaryMuscles": [
+      "三头",
+      "肩前束"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "力量训练经典动作，胸肌主要复合动作"
+  },
+  {
+    "id": 68,
+    "name": "上斜哑铃卧推",
+    "nameEn": "Incline Dumbbell Press",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "胸(上部)",
+      "肩前束"
+    ],
+    "secondaryMuscles": [
+      "三头"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "30-45度上斜，侧重胸肌上束"
+  },
+  {
+    "id": 69,
+    "name": "下斜杠铃卧推",
+    "nameEn": "Decline Barbell Press",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "胸(下部)"
+    ],
+    "secondaryMuscles": [
+      "三头",
+      "肩前束"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "侧重胸肌下束"
+  },
+  {
+    "id": 70,
+    "name": "哑铃飞鸟",
+    "nameEn": "Dumbbell Fly",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "胸"
+    ],
+    "secondaryMuscles": [
+      "肩前束"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 4.0,
+    "description": "孤立胸肌的伸展收缩，肩关节注意角度"
+  },
+  {
+    "id": 71,
+    "name": "龙门架夹胸",
+    "nameEn": "Cable Crossover",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "胸"
+    ],
+    "secondaryMuscles": [
+      "肩前束"
+    ],
+    "equipment": "绳索",
+    "difficulty": "中级",
+    "met": 3.5,
+    "description": "绳索持续张力夹胸"
+  },
+  {
+    "id": 72,
+    "name": "俯卧撑",
+    "nameEn": "Push-up",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "胸",
+      "三头"
+    ],
+    "secondaryMuscles": [
+      "肩前束",
+      "核心"
+    ],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 5.0,
+    "description": "可调角度和宽度改变刺激"
+  },
+  {
+    "id": 73,
+    "name": "双杠臂屈伸",
+    "nameEn": "Weighted Dips",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "胸",
+      "三头"
+    ],
+    "secondaryMuscles": [
+      "肩前束"
+    ],
+    "equipment": "自重",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "前倾侧重胸，直立侧重三头"
+  },
+  {
+    "id": 74,
+    "name": "引体向上",
+    "nameEn": "Pull-up",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "背阔肌",
+      "二头"
+    ],
+    "secondaryMuscles": [
+      "斜方肌",
+      "核心"
+    ],
+    "equipment": "单杠",
+    "difficulty": "中级",
+    "met": 6.0,
+    "description": "EMG数据显示背部激活最高的动作之一"
+  },
+  {
+    "id": 75,
+    "name": "反手引体向上",
+    "nameEn": "Chin-up",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "背阔肌",
+      "二头"
+    ],
+    "secondaryMuscles": [
+      "斜方肌"
+    ],
+    "equipment": "单杠",
+    "difficulty": "中级",
+    "met": 6.0,
+    "description": "反手握更多二头参与"
+  },
+  {
+    "id": 76,
+    "name": "高位下拉",
+    "nameEn": "Lat Pulldown",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "背阔肌"
+    ],
+    "secondaryMuscles": [
+      "二头",
+      "斜方肌"
+    ],
+    "equipment": "固定器械",
+    "difficulty": "初级",
+    "met": 4.5,
+    "description": "引体向上替代/补充动作"
+  },
+  {
+    "id": 77,
+    "name": "坐姿划船",
+    "nameEn": "Seated Cable Row",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "背(中部)",
+      "斜方肌"
+    ],
+    "secondaryMuscles": [
+      "二头",
+      "后肩"
+    ],
+    "equipment": "绳索",
+    "difficulty": "初级",
+    "met": 4.5,
+    "description": "水平拉，背部厚度"
+  },
+  {
+    "id": 78,
+    "name": "单臂哑铃划船",
+    "nameEn": "Single Arm Dumbbell Row",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "背阔肌",
+      "斜方肌"
+    ],
+    "secondaryMuscles": [
+      "二头",
+      "核心"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "单侧纠正不平衡"
+  },
+  {
+    "id": 79,
+    "name": "T杠划船",
+    "nameEn": "T-Bar Row",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "背(中部)",
+      "斜方肌"
+    ],
+    "secondaryMuscles": [
+      "二头",
+      "下背"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "厚度训练经典动作"
+  },
+  {
+    "id": 80,
+    "name": "直臂下压",
+    "nameEn": "Straight Arm Pulldown",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "背阔肌"
+    ],
+    "secondaryMuscles": [
+      "三头(长头)"
+    ],
+    "equipment": "绳索",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "孤立背阔肌，常做激活或收尾"
+  },
+  {
+    "id": 81,
+    "name": "杠铃耸肩",
+    "nameEn": "Barbell Shrug",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "斜方肌(上)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "杠铃",
+    "difficulty": "初级",
+    "met": 4.0,
+    "description": "上斜方肌专项"
+  },
+  {
+    "id": 82,
+    "name": "杠铃推举",
+    "nameEn": "Overhead Barbell Press",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "肩前束",
+      "肩中束"
+    ],
+    "secondaryMuscles": [
+      "三头",
+      "核心"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "EMG显示三角肌整体激活最高"
+  },
+  {
+    "id": 83,
+    "name": "哑铃推举",
+    "nameEn": "Dumbbell Shoulder Press",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "肩前束",
+      "肩中束"
+    ],
+    "secondaryMuscles": [
+      "三头"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "坐姿/站姿均可"
+  },
+  {
+    "id": 84,
+    "name": "阿诺德推举",
+    "nameEn": "Arnold Press",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "肩前束",
+      "肩中束"
+    ],
+    "secondaryMuscles": [
+      "三头"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "旋转推举，三角肌全方位刺激"
+  },
+  {
+    "id": 85,
+    "name": "哑铃侧平举",
+    "nameEn": "Dumbbell Lateral Raise",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "肩中束"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "哑铃",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "孤立肩中束，用轻重量控制"
+  },
+  {
+    "id": 86,
+    "name": "俯身飞鸟",
+    "nameEn": "Rear Delt Fly",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "肩后束"
+    ],
+    "secondaryMuscles": [
+      "斜方肌(中)"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "后三角肌孤立，平衡前后肩"
+  },
+  {
+    "id": 87,
+    "name": "面拉",
+    "nameEn": "Face Pull",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "肩后束",
+      "斜方肌(中)"
+    ],
+    "secondaryMuscles": [
+      "外旋肌"
+    ],
+    "equipment": "绳索",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "肩关节健康必备，矫正圆肩"
+  },
+  {
+    "id": 88,
+    "name": "直立划船",
+    "nameEn": "Upright Row",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "肩中束",
+      "斜方肌"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 4.5,
+    "description": "注意不要拉太高以保护肩关节"
+  },
+  {
+    "id": 89,
+    "name": "杠铃弯举",
+    "nameEn": "Barbell Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "二头"
+    ],
+    "secondaryMuscles": [
+      "前臂"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "EMG数据二头激活最高"
+  },
+  {
+    "id": 90,
+    "name": "哑铃弯举",
+    "nameEn": "Dumbbell Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "二头"
+    ],
+    "secondaryMuscles": [
+      "前臂"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "交替/同时均可"
+  },
+  {
+    "id": 91,
+    "name": "锤式弯举",
+    "nameEn": "Hammer Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "肱桡肌",
+      "二头"
+    ],
+    "secondaryMuscles": [
+      "前臂"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "中立握，前臂和肱桡肌参与更多"
+  },
+  {
+    "id": 92,
+    "name": "上斜哑铃弯举",
+    "nameEn": "Incline Dumbbell Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "二头(长头)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 3.5,
+    "description": "后仰拉长二头长头"
+  },
+  {
+    "id": 93,
+    "name": "绳索弯举",
+    "nameEn": "Cable Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "二头"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "绳索",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "持续张力弯举"
+  },
+  {
+    "id": 94,
+    "name": "窄握卧推",
+    "nameEn": "Close Grip Bench Press",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "三头",
+      "胸"
+    ],
+    "secondaryMuscles": [
+      "肩前束"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "三头复合动作"
+  },
+  {
+    "id": 95,
+    "name": "绳索下压",
+    "nameEn": "Cable Tricep Pushdown",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "三头"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "绳索",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "三头经典孤立动作"
+  },
+  {
+    "id": 96,
+    "name": "仰卧臂屈伸",
+    "nameEn": "Skull Crusher",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "三头"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 4.0,
+    "description": "仰卧杠铃/哑铃臂屈伸"
+  },
+  {
+    "id": 97,
+    "name": "绳索头顶臂屈伸",
+    "nameEn": "Cable Overhead Extension",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "三头(长头)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "绳索",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "拉长三头长头"
+  },
+  {
+    "id": 98,
+    "name": "腕弯举",
+    "nameEn": "Wrist Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "前臂(屈肌)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "哑铃",
+    "difficulty": "初级",
+    "met": 2.5,
+    "description": "前臂屈肌训练"
+  },
+  {
+    "id": 99,
+    "name": "反握腕弯举",
+    "nameEn": "Reverse Wrist Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "前臂(伸肌)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "哑铃",
+    "difficulty": "初级",
+    "met": 2.5,
+    "description": "前臂伸肌训练"
+  },
+  {
+    "id": 100,
+    "name": "农夫行走",
+    "nameEn": "Farmer Walk",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "握力",
+      "斜方肌"
+    ],
+    "secondaryMuscles": [
+      "核心",
+      "前臂"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 6.0,
+    "description": "双手持重行走，全身功能性"
+  },
+  {
+    "id": 101,
+    "name": "杠铃深蹲",
+    "nameEn": "Barbell Back Squat",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心",
+      "下背"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 6.0,
+    "description": "力量训练之王，全身复合动作"
+  },
+  {
+    "id": 102,
+    "name": "腿举",
+    "nameEn": "Leg Press",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "固定器械",
+    "difficulty": "初级",
+    "met": 5.0,
+    "description": "深蹲替代/补充，对脊柱压力小"
+  },
+  {
+    "id": 103,
+    "name": "保加利亚分腿蹲",
+    "nameEn": "Bulgarian Split Squat",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "后脚抬高单腿蹲，纠正左右不平衡"
+  },
+  {
+    "id": 104,
+    "name": "腿屈伸",
+    "nameEn": "Leg Extension",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "股四"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "固定器械",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "股四头肌孤立训练"
+  },
+  {
+    "id": 105,
+    "name": "高脚杯深蹲",
+    "nameEn": "Goblet Squat",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "核心"
+    ],
+    "equipment": "哑铃",
+    "difficulty": "初级",
+    "met": 5.0,
+    "description": "持哑铃/壶铃胸前深蹲，学习蹲姿"
+  },
+  {
+    "id": 106,
+    "name": "传统硬拉",
+    "nameEn": "Conventional Deadlift",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "下背",
+      "臀",
+      "腿后侧"
+    ],
+    "secondaryMuscles": [
+      "斜方肌",
+      "核心"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 6.5,
+    "description": "全身最强复合动作，注意腰椎安全"
+  },
+  {
+    "id": 107,
+    "name": "直腿硬拉",
+    "nameEn": "Stiff Leg Deadlift",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "腿后侧",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "下背"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.5,
+    "description": "膝盖几乎不弯，侧重腿后侧"
+  },
+  {
+    "id": 108,
+    "name": "俯卧腿弯举",
+    "nameEn": "Lying Leg Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "腿后侧"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "固定器械",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "腘绳肌孤立训练"
+  },
+  {
+    "id": 109,
+    "name": "北欧腿弯举",
+    "nameEn": "Nordic Hamstring Curl",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "腿后侧"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "高级",
+    "met": 5.0,
+    "description": "离心控制，预防腘绳肌拉伤"
+  },
+  {
+    "id": 110,
+    "name": "早安式体前屈",
+    "nameEn": "Good Morning",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "腿后侧",
+      "下背"
+    ],
+    "secondaryMuscles": [
+      "臀"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "杠铃置颈后屈髋"
+  },
+  {
+    "id": 111,
+    "name": "臀桥杠铃版",
+    "nameEn": "Barbell Glute Bridge",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "腿后侧"
+    ],
+    "equipment": "杠铃",
+    "difficulty": "中级",
+    "met": 4.5,
+    "description": "地面版臀推"
+  },
+  {
+    "id": 112,
+    "name": "弹力带侧行",
+    "nameEn": "Banded Lateral Walk",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "臀(中)",
+      "臀(小)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "弹力带",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "臀中肌激活，膝关节稳定"
+  },
+  {
+    "id": 113,
+    "name": "后踢腿",
+    "nameEn": "Cable Kickback",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "腿后侧"
+    ],
+    "equipment": "绳索",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "绳索/弹力带后踢"
+  },
+  {
+    "id": 114,
+    "name": "站姿提踵",
+    "nameEn": "Standing Calf Raise",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "小腿(腓肠肌)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "固定器械",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "小腿主要训练动作"
+  },
+  {
+    "id": 115,
+    "name": "坐姿提踵",
+    "nameEn": "Seated Calf Raise",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "小腿(比目鱼肌)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "固定器械",
+    "difficulty": "初级",
+    "met": 3.0,
+    "description": "屈膝状态训练比目鱼肌"
+  },
+  {
+    "id": 116,
+    "name": "悬垂举腿",
+    "nameEn": "Hanging Leg Raise",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "核心(下腹)",
+      "髋屈肌"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "单杠",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "悬垂举腿到水平或以上"
+  },
+  {
+    "id": 117,
+    "name": "卷腹",
+    "nameEn": "Crunch",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "核心(上腹)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "基础腹肌训练"
+  },
+  {
+    "id": 118,
+    "name": "反向卷腹",
+    "nameEn": "Reverse Crunch",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "核心(下腹)"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 3.5,
+    "description": "下腹侧重"
+  },
+  {
+    "id": 119,
+    "name": "绳索卷腹",
+    "nameEn": "Cable Crunch",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "核心"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "绳索",
+    "difficulty": "中级",
+    "met": 4.0,
+    "description": "可渐进加重的腹肌训练"
+  },
+  {
+    "id": 120,
+    "name": "俄罗斯转体",
+    "nameEn": "Russian Twist",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "腹斜肌",
+      "核心"
+    ],
+    "secondaryMuscles": [],
+    "equipment": "自重",
+    "difficulty": "初级",
+    "met": 4.0,
+    "description": "坐姿旋转，可持重物"
+  },
+  {
+    "id": 121,
+    "name": "Ab Rollout",
+    "nameEn": "Ab Rollout",
+    "type": "肌肥大",
+    "primaryMuscles": [
+      "核心",
+      "腹直肌"
+    ],
+    "secondaryMuscles": [
+      "肩",
+      "背阔肌"
+    ],
+    "equipment": "其他",
+    "difficulty": "中级",
+    "met": 5.0,
+    "description": "健腹轮，核心抗伸展高阶动作"
+  },
+  {
+    "id": 122,
+    "name": "跑步机",
+    "nameEn": "Treadmill Running",
+    "type": "有氧",
+    "primaryMuscles": [
+      "全身"
+    ],
+    "secondaryMuscles": [
+      "心肺"
+    ],
+    "equipment": "有氧器械",
+    "difficulty": "初级",
+    "met": 8.0,
+    "description": "室内跑步/快走"
+  },
+  {
+    "id": 123,
+    "name": "户外跑步",
+    "nameEn": "Outdoor Running",
+    "type": "有氧",
+    "primaryMuscles": [
+      "全身"
+    ],
+    "secondaryMuscles": [
+      "心肺"
+    ],
+    "equipment": "无器械",
+    "difficulty": "初级",
+    "met": 8.0,
+    "description": "户外慢跑/间歇跑"
+  },
+  {
+    "id": 124,
+    "name": "动感单车",
+    "nameEn": "Stationary Bike",
+    "type": "有氧",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "心肺"
+    ],
+    "equipment": "有氧器械",
+    "difficulty": "初级",
+    "met": 7.0,
+    "description": "低冲击有氧"
+  },
+  {
+    "id": 125,
+    "name": "划船机",
+    "nameEn": "Rowing Machine",
+    "type": "有氧",
+    "primaryMuscles": [
+      "背",
+      "腿",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "心肺"
+    ],
+    "equipment": "有氧器械",
+    "difficulty": "中级",
+    "met": 7.0,
+    "description": "全身有氧，拉推结合"
+  },
+  {
+    "id": 126,
+    "name": "椭圆机",
+    "nameEn": "Elliptical",
+    "type": "有氧",
+    "primaryMuscles": [
+      "全身"
+    ],
+    "secondaryMuscles": [
+      "心肺"
+    ],
+    "equipment": "有氧器械",
+    "difficulty": "初级",
+    "met": 5.5,
+    "description": "低冲击全身有氧"
+  },
+  {
+    "id": 127,
+    "name": "游泳",
+    "nameEn": "Swimming",
+    "type": "有氧",
+    "primaryMuscles": [
+      "全身"
+    ],
+    "secondaryMuscles": [
+      "心肺"
+    ],
+    "equipment": "无器械",
+    "difficulty": "中级",
+    "met": 7.0,
+    "description": "全身低冲击有氧"
+  },
+  {
+    "id": 128,
+    "name": "跳绳",
+    "nameEn": "Jump Rope",
+    "type": "有氧",
+    "primaryMuscles": [
+      "小腿",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "心肺",
+      "肩"
+    ],
+    "equipment": "其他",
+    "difficulty": "中级",
+    "met": 10.0,
+    "description": "高效心肺训练"
+  },
+  {
+    "id": 129,
+    "name": "登山机",
+    "nameEn": "Stair Climber",
+    "type": "有氧",
+    "primaryMuscles": [
+      "股四",
+      "臀"
+    ],
+    "secondaryMuscles": [
+      "心肺",
+      "小腿"
+    ],
+    "equipment": "有氧器械",
+    "difficulty": "中级",
+    "met": 8.0,
+    "description": "爬楼梯模拟"
+  },
+  {
+    "id": 130,
+    "name": "战绳",
+    "nameEn": "Battle Rope",
+    "type": "有氧",
+    "primaryMuscles": [
+      "肩",
+      "核心"
+    ],
+    "secondaryMuscles": [
+      "心肺",
+      "臂"
+    ],
+    "equipment": "其他",
+    "difficulty": "中级",
+    "met": 8.0,
+    "description": "上肢为主的HIIT训练"
+  }
+]
