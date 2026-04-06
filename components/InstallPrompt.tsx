@@ -8,6 +8,12 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 }
 
+declare global {
+  interface Window {
+    __pwaPrompt: BeforeInstallPromptEvent | null;
+  }
+}
+
 type Mode = "android" | "ios" | null;
 
 export default function InstallPrompt() {
@@ -32,6 +38,14 @@ export default function InstallPrompt() {
       return;
     }
 
+    // Pick up event captured before React hydrated
+    if (window.__pwaPrompt) {
+      setDeferredPrompt(window.__pwaPrompt);
+      setMode("android");
+      return;
+    }
+
+    // Fallback: listen in case it fires later
     const handler = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);

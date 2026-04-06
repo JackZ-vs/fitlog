@@ -43,6 +43,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        {/* Capture beforeinstallprompt before React hydrates */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          window.__pwaPrompt = null;
+          window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            window.__pwaPrompt = e;
+          }, { once: true });
+        `}} />
+      </head>
       <body className="min-h-screen">
         {children}
         <SWRegister />
