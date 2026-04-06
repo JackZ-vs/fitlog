@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Dumbbell, Utensils, Flame, TrendingUp, ChevronRight, Target } from "lucide-react";
-import { getMealsByDate, getDailyTargets, getAllWorkouts, getMealsInRange } from "@/lib/db";
+import { Dumbbell, Utensils, Flame, TrendingUp, ChevronRight, Target, X } from "lucide-react";
+import { getMealsByDate, getDailyTargets, getAllWorkouts, getMealsInRange, getMyProfile } from "@/lib/db";
 import type { DailyTargets, MealEntry, WorkoutRecord } from "@/lib/types";
 import { computeInsights, InsightIcon } from "@/lib/insights";
+import { getOnboardingTips, getDismissedTips, dismissTip, type OnboardingTip } from "@/lib/onboarding";
 
 export default function TodayPage() {
   const todayDate = new Date().toISOString().slice(0, 10);
@@ -19,18 +20,34 @@ export default function TodayPage() {
   const [targets, setTargets] = useState<DailyTargets>({ calories: 2000, protein: 150, carbs: 250, fat: 65 });
   const [workouts, setWorkouts] = useState<WorkoutRecord[]>([]);
   const [allMeals, setAllMeals] = useState<MealEntry[]>([]);
+  const [tips, setTips] = useState<OnboardingTip[]>([]);
+  const [dismissed, setDismissed] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     getMealsByDate(todayDate).then(setMeals);
-    getDailyTargets().then(setTargets);
-    getAllWorkouts().then(setWorkouts);
-    // Load last 7 days of meals for insights
+    getDailyTargets().then((t) => {
+      setTargets(t);
+      getMyProfile().then((p) => {
+        getAllWorkouts().then((ws) => {
+          setWorkouts(ws);
+          setTips(getOnboardingTips(p, ws.length, t));
+        });
+      });
+    });
     const past7 = new Date();
     past7.setDate(past7.getDate() - 7);
     getMealsInRange(past7.toISOString().slice(0, 10), todayDate).then(setAllMeals);
+    setDismissed(getDismissedTips());
   }, [todayDate]);
 
   const insights = computeInsights(workouts, allMeals, targets);
+
+  function handleDismiss(id: string) {
+    dismissTip(id);
+    setDismissed((prev) => new Set([...prev, id]));
+  }
+
+  const visibleTips = tips.filter((t) => !dismissed.has(t.id)).slice(0, 2);
 
   const calories = Math.round(meals.reduce((s, m) => s + (m.calories ?? 0), 0));
   const protein = Math.round(meals.reduce((s, m) => s + (m.protein ?? 0), 0));
@@ -44,6 +61,36 @@ export default function TodayPage() {
         <p className="text-[#6b7280] text-sm">{todayLabel}</p>
         <h1 className="text-2xl font-bold text-[#f0f2f5] mt-0.5">今日概览</h1>
       </div>
+
+      {/* Onboarding tips */}
+      {visibleTips.length > 0 && (
+        <div className="space-y-2 mb-5">
+          {visibleTips.map((tip) => (
+            <div
+              key={tip.id}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl border"
+              style={{
+                background: "linear-gradient(135deg, rgba(251,146,60,0.12) 0%, rgba(250,204,21,0.08) 100%)",
+                borderColor: "rgba(251,146,60,0.25)",
+              }}
+            >
+              <span className="text-sm text-[#f0f2f5] flex-1">{tip.message}</span>
+              <Link
+                href={tip.href}
+                className="shrink-0 text-xs font-semibold text-[#f97316] hover:text-[#ea6c0a] transition-colors"
+              >
+                {tip.action}
+              </Link>
+              <button
+                onClick={() => handleDismiss(tip.id)}
+                className="shrink-0 text-[#6b7280] hover:text-[#f0f2f5] transition-colors"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Streak banner */}
       <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#f97316]/10 border border-[#f97316]/20 mb-5">

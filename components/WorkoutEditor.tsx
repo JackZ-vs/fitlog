@@ -10,8 +10,10 @@ import {
 import ExercisePicker from "@/components/ExercisePicker";
 import {
   getWorkout, saveWorkout, newEmptyWorkout,
-  getLastWorkoutBefore, estimateCalories,
+  getLastWorkoutBefore,
 } from "@/lib/workoutStore";
+import { estimateCalories, estimateSetCalories, formatPace } from "@/lib/calories";
+import { getMyProfile } from "@/lib/db";
 import type { WorkoutRecord, WorkoutExercise, SetData } from "@/lib/types";
 
 function formatDate(dateStr: string) {
@@ -30,15 +32,17 @@ export default function WorkoutEditor({ date }: Props) {
   const [saved, setSaved] = useState(false);
   const [collapsedIds, setCollapsedIds] = useState<Set<number>>(new Set());
   const [hasLastWorkout, setHasLastWorkout] = useState(false);
+  const [bodyWeightKg, setBodyWeightKg] = useState(70);
 
   useEffect(() => {
     getWorkout(date).then((existing) => {
       setWorkout(existing ?? newEmptyWorkout(date));
     });
     getLastWorkoutBefore(date).then((w) => setHasLastWorkout(!!w));
+    getMyProfile().then((p) => { if (p?.weightKg) setBodyWeightKg(p.weightKg); });
   }, [date]);
 
-  const calories = workout ? estimateCalories(workout) : 0;
+  const calories = workout ? estimateCalories(workout, bodyWeightKg) : 0;
 
   function updateWorkout(updater: (w: WorkoutRecord) => WorkoutRecord) {
     setWorkout((prev) => prev ? updater(prev) : prev);
@@ -262,6 +266,7 @@ export default function WorkoutEditor({ date }: Props) {
               exercise={ex}
               exIdx={exIdx}
               collapsed={collapsedIds.has(exIdx)}
+              bodyWeightKg={bodyWeightKg}
               onToggleCollapse={() => toggleCollapse(exIdx)}
               onRemove={() => removeExercise(exIdx)}
               onAddSet={() => addSet(exIdx)}
@@ -327,6 +332,7 @@ interface ExerciseBlockProps {
   exercise: WorkoutExercise;
   exIdx: number;
   collapsed: boolean;
+  bodyWeightKg: number;
   onToggleCollapse: () => void;
   onRemove: () => void;
   onAddSet: () => void;
@@ -335,10 +341,14 @@ interface ExerciseBlockProps {
 }
 
 function ExerciseBlock({
-  exercise: ex, collapsed, onToggleCollapse,
+  exercise: ex, collapsed, bodyWeightKg, onToggleCollapse,
   onRemove, onAddSet, onRemoveSet, onUpdateSet,
 }: ExerciseBlockProps) {
   const isCardio = ex.type === "有氧";
+  // strength: # | weight | reps | kcal | ✕
+  // cardio:   # | duration(s) | distance(km) | info
+  const gridStrength = "grid-cols-[1.5rem_1fr_1fr_2.5rem_1.5rem]";
+  const gridCardio   = "grid-cols-[1.5rem_1fr_1fr_3.5rem]";
 
   return (
     <div className="rounded-xl bg-[#111318] border border-[#252830] overflow-hidden">
@@ -366,17 +376,19 @@ function ExerciseBlock({
       {!collapsed && (
         <div className="p-3.5">
           {/* Column headers */}
-          <div className={`grid gap-2 mb-2 text-[10px] text-[#6b7280] font-medium px-1 ${isCardio ? "grid-cols-[2rem_1fr_1fr]" : "grid-cols-[2rem_1fr_1fr_1.5rem]"}`}>
+          <div className={`grid gap-2 mb-2 text-[10px] text-[#6b7280] font-medium px-1 ${isCardio ? gridCardio : gridStrength}`}>
             <span>#</span>
             {isCardio ? (
               <>
                 <span>时长（秒）</span>
-                <span>备注</span>
+                <span>距离（km）</span>
+                <span className="text-right">配速/热量</span>
               </>
             ) : (
               <>
                 <span>重量（kg）</span>
-                <span>次数（reps）</span>
+                <span>次数</span>
+                <span className="text-right">kcal</span>
                 <span />
               </>
             )}
@@ -389,7 +401,9 @@ function ExerciseBlock({
                 key={si}
                 setNum={si + 1}
                 set={set}
+                exercise={ex}
                 isCardio={isCardio}
+                bodyWeightKg={bodyWeightKg}
                 canDelete={ex.sets.length > 1}
                 onUpdate={(field, val) => onUpdateSet(si, field, val)}
                 onDelete={() => onRemoveSet(si)}
@@ -415,53 +429,50 @@ function ExerciseBlock({
 interface SetRowProps {
   setNum: number;
   set: SetData;
+  exercise: WorkoutExercise;
   isCardio: boolean;
+  bodyWeightKg: number;
   canDelete: boolean;
   onUpdate: (field: keyof SetData, val: string) => void;
   onDelete: () => void;
 }
 
-function SetRow({ setNum, set, isCardio, canDelete, onUpdate, onDelete }: SetRowProps) {
+function SetRow({ setNum, set, exercise, isCardio, bodyWeightKg, canDelete, onUpdate, onDelete }: SetRowProps) {
+  const kcal = estimateSetCalories(set, exercise, bodyWeightKg);
+  const kcalLabel = kcal >= 0.5 ? `${Math.round(kcal)}` : "";
+
+  // Cardio info: show pace if distance+duration, else kcal
+  const pace = isCardio ? formatPace(set.duration ?? 0, set.distanceKm ?? 0) : null;
+  const cardioInfo = pace ? `${pace}/km` : kcalLabel ? `${kcalLabel}kcal` : "";
+
+  const gridStrength = "grid-cols-[1.5rem_1fr_1fr_2.5rem_1.5rem]";
+  const gridCardio   = "grid-cols-[1.5rem_1fr_1fr_3.5rem]";
+
   return (
-    <div className={`grid gap-2 items-center ${isCardio ? "grid-cols-[2rem_1fr_1fr]" : "grid-cols-[2rem_1fr_1fr_1.5rem]"}`}>
+    <div className={`grid gap-2 items-center ${isCardio ? gridCardio : gridStrength}`}>
       <span className="text-xs text-[#6b7280] text-center">{setNum}</span>
 
       {isCardio ? (
         <>
-          <NumInput
-            value={set.duration}
-            placeholder="时长"
-            onChange={(v) => onUpdate("duration", v)}
-          />
-          <span className="text-xs text-[#3f4350]">秒</span>
+          <NumInput value={set.duration} placeholder="时长" onChange={(v) => onUpdate("duration", v)} />
+          <NumInput value={set.distanceKm ?? null} placeholder="距离" step={0.1} onChange={(v) => onUpdate("distanceKm", v)} />
+          <span className="text-[10px] text-[#6b7280] text-right leading-tight">{cardioInfo}</span>
         </>
       ) : (
         <>
-          <NumInput
-            value={set.weight}
-            placeholder="重量"
-            step={2.5}
-            onChange={(v) => onUpdate("weight", v)}
-          />
-          <NumInput
-            value={set.reps}
-            placeholder="次数"
-            step={1}
-            onChange={(v) => onUpdate("reps", v)}
-          />
+          <NumInput value={set.weight} placeholder="重量" step={2.5} onChange={(v) => onUpdate("weight", v)} />
+          <NumInput value={set.reps} placeholder="次数" step={1} onChange={(v) => onUpdate("reps", v)} />
+          <span className="text-[10px] text-[#6b7280] text-right leading-tight">{kcalLabel}</span>
+          <button
+            onClick={onDelete}
+            disabled={!canDelete}
+            className={`flex items-center justify-center h-8 w-6 rounded transition-colors ${
+              canDelete ? "text-[#3f4350] hover:text-red-400" : "text-[#1a1d24] cursor-default"
+            }`}
+          >
+            <X size={12} />
+          </button>
         </>
-      )}
-
-      {!isCardio && (
-        <button
-          onClick={onDelete}
-          disabled={!canDelete}
-          className={`flex items-center justify-center h-8 w-6 rounded transition-colors ${
-            canDelete ? "text-[#3f4350] hover:text-red-400" : "text-[#1a1d24] cursor-default"
-          }`}
-        >
-          <X size={12} />
-        </button>
       )}
     </div>
   );

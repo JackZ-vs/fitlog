@@ -6,6 +6,7 @@
 
 import type { WorkoutRecord, WorkoutExercise, SetData, MealEntry, DailyTargets } from "./types";
 import { DEFAULT_TARGETS } from "./types";
+import { estimateCalories as calcCalories } from "./calories";
 import exercisesJson from "@/data/exercises.json";
 import mockWorkoutsJson from "@/data/mockWorkouts.json";
 
@@ -21,18 +22,9 @@ async function getBrowserClient() {
   return createClient();
 }
 
-// ─── Calorie helper (pure, used by workoutStore too) ─────────────────────────
+// ─── Calorie helper (re-exported from calories.ts) ───────────────────────────
 
-export function estimateCalories(workout: WorkoutRecord, bodyWeightKg = 70): number {
-  let total = 0;
-  for (const ex of workout.exercises) {
-    for (const set of ex.sets) {
-      const hours = (set.duration ?? 45) / 3600;
-      total += ex.met * bodyWeightKg * hours;
-    }
-  }
-  return Math.round(total);
-}
+export { estimateCalories } from "./calories";
 
 // ─── Local helpers (localStorage + mock) ─────────────────────────────────────
 
@@ -95,6 +87,7 @@ function dbRowToWorkout(row: any): WorkoutRecord {
       weight: s.weight,
       reps: s.reps,
       duration: s.duration,
+      distanceKm: s.distance_km ?? null,
     });
   }
 
@@ -102,7 +95,7 @@ function dbRowToWorkout(row: any): WorkoutRecord {
     ...ex,
     sets: sets
       .sort((a, b) => a.set_number - b.set_number)
-      .map(({ weight, reps, duration }) => ({ weight, reps, duration })),
+      .map(({ weight, reps, duration, distanceKm }) => ({ weight, reps, duration, distanceKm })),
   }));
 
   return {
@@ -118,7 +111,7 @@ function dbRowToWorkout(row: any): WorkoutRecord {
 const SETS_QUERY = `
   id, date, name, notes, is_public,
   workout_sets (
-    set_number, weight, reps, duration,
+    set_number, weight, reps, duration, distance_km,
     exercise:exercises ( id, name, type, primary_muscles, met )
   )
 `;
@@ -268,7 +261,7 @@ export async function saveWorkout(workout: WorkoutRecord): Promise<void> {
           name: workout.name,
           notes: workout.notes,
           is_public: workout.isPublic,
-          estimated_calories: estimateCalories(workout),
+          estimated_calories: calcCalories(workout),
           updated_at: new Date().toISOString(),
         },
         { onConflict: "user_id,date" }
@@ -289,6 +282,7 @@ export async function saveWorkout(workout: WorkoutRecord): Promise<void> {
         weight: set.weight,
         reps: set.reps,
         duration: set.duration,
+        distance_km: set.distanceKm ?? null,
       }))
     );
 
@@ -503,6 +497,10 @@ export interface Profile {
   displayName: string;
   role: "admin" | "user";
   weightKg: number | null;
+  age: number | null;
+  heightCm: number | null;
+  gender: "male" | "female" | "other" | null;
+  restingHeartRate: number | null;
   createdAt: string;
 }
 
@@ -514,6 +512,10 @@ function dbRowToProfile(row: any): Profile {
     displayName: row.display_name ?? row.username,
     role: row.role ?? "user",
     weightKg: row.weight_kg ?? null,
+    age: row.age ?? null,
+    heightCm: row.height_cm ?? null,
+    gender: row.gender ?? null,
+    restingHeartRate: row.resting_heart_rate ?? null,
     createdAt: row.created_at ?? "",
   };
 }
@@ -526,7 +528,7 @@ export async function getMyProfile(): Promise<Profile | null> {
     const sb = await getBrowserClient();
     const { data } = await sb
       .from("profiles")
-      .select("id, username, display_name, role, weight_kg, created_at")
+      .select("id, username, display_name, role, weight_kg, age, height_cm, gender, resting_heart_rate, created_at")
       .eq("id", userId)
       .maybeSingle();
     return data ? dbRowToProfile(data) : null;
@@ -536,7 +538,14 @@ export async function getMyProfile(): Promise<Profile | null> {
 }
 
 export async function updateMyProfile(
-  data: { displayName?: string; weightKg?: number | null }
+  data: {
+    displayName?: string;
+    weightKg?: number | null;
+    age?: number | null;
+    heightCm?: number | null;
+    gender?: "male" | "female" | "other" | null;
+    restingHeartRate?: number | null;
+  }
 ): Promise<void> {
   if (!isSupabaseConfigured) return;
   const userId = await getCurrentUserId();
@@ -546,6 +555,10 @@ export async function updateMyProfile(
     const update: Record<string, unknown> = {};
     if (data.displayName !== undefined) update.display_name = data.displayName;
     if (data.weightKg !== undefined) update.weight_kg = data.weightKg;
+    if (data.age !== undefined) update.age = data.age;
+    if (data.heightCm !== undefined) update.height_cm = data.heightCm;
+    if (data.gender !== undefined) update.gender = data.gender;
+    if (data.restingHeartRate !== undefined) update.resting_heart_rate = data.restingHeartRate;
     await sb.from("profiles").update(update).eq("id", userId);
   } catch {
     // ignore
@@ -558,7 +571,7 @@ export async function getAllProfiles(): Promise<Profile[]> {
     const sb = await getBrowserClient();
     const { data } = await sb
       .from("profiles")
-      .select("id, username, display_name, role, weight_kg, created_at")
+      .select("id, username, display_name, role, weight_kg, age, height_cm, gender, resting_heart_rate, created_at")
       .order("created_at");
     return (data ?? []).map(dbRowToProfile);
   } catch {

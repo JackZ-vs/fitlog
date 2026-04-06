@@ -1,7 +1,8 @@
 export interface SetData {
   weight: number | null;
   reps: number | null;
-  duration: number | null; // seconds
+  duration: number | null;   // seconds
+  distanceKm?: number | null; // optional — cardio only
 }
 
 export interface WorkoutExercise {

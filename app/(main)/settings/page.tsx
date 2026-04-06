@@ -69,10 +69,19 @@ export default function SettingsPage() {
   // Profile section state
   const [displayName, setDisplayName] = useState("");
   const [weightKg, setWeightKg] = useState("");
+  const [age, setAge] = useState("");
+  const [heightCm, setHeightCm] = useState("");
+  const [gender, setGender] = useState<"male" | "female" | "other" | "">("");
+  const [restingHR, setRestingHR] = useState("");
+
   useEffect(() => {
     if (profile) {
       setDisplayName(profile.displayName);
       setWeightKg(profile.weightKg !== null ? String(profile.weightKg) : "");
+      setAge(profile.age !== null ? String(profile.age) : "");
+      setHeightCm(profile.heightCm !== null ? String(profile.heightCm) : "");
+      setGender(profile.gender ?? "");
+      setRestingHR(profile.restingHeartRate !== null ? String(profile.restingHeartRate) : "");
     }
   }, [profile]);
 
@@ -80,6 +89,10 @@ export default function SettingsPage() {
     await updateMyProfile({
       displayName: displayName.trim() || undefined,
       weightKg: weightKg ? Number(weightKg) : null,
+      age: age ? Number(age) : null,
+      heightCm: heightCm ? Number(heightCm) : null,
+      gender: (gender || null) as "male" | "female" | "other" | null,
+      restingHeartRate: restingHR ? Number(restingHR) : null,
     });
     flash("profile");
   }
@@ -143,6 +156,25 @@ export default function SettingsPage() {
         <Field label="体重 (kg)">
           <input type="number" inputMode="decimal" className={inputCls} value={weightKg} onChange={(e) => setWeightKg(e.target.value)} placeholder="用于热量计算" min={30} max={300} step={0.1} />
         </Field>
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="年龄">
+            <input type="number" inputMode="numeric" className={inputCls} value={age} onChange={(e) => setAge(e.target.value)} placeholder="估算最大心率" min={10} max={100} />
+          </Field>
+          <Field label="身高 (cm)">
+            <input type="number" inputMode="numeric" className={inputCls} value={heightCm} onChange={(e) => setHeightCm(e.target.value)} placeholder="可选" min={100} max={250} />
+          </Field>
+          <Field label="性别">
+            <select className={inputCls} value={gender} onChange={(e) => setGender(e.target.value as typeof gender)}>
+              <option value="">未设置</option>
+              <option value="male">男</option>
+              <option value="female">女</option>
+              <option value="other">其他</option>
+            </select>
+          </Field>
+          <Field label="静息心率 (bpm)">
+            <input type="number" inputMode="numeric" className={inputCls} value={restingHR} onChange={(e) => setRestingHR(e.target.value)} placeholder="默认 70" min={30} max={120} />
+          </Field>
+        </div>
         <SaveButton onClick={saveProfile} saved={!!saved.profile} disabled={!isSupabaseConfigured} tooltip={!isSupabaseConfigured ? "需要连接 Supabase" : undefined} />
       </Section>
 
