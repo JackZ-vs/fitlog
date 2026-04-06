@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Check, Download, Eye, EyeOff, LogOut } from "lucide-react";
+import { Check, Download, Eye, EyeOff, LogOut, Smartphone } from "lucide-react";
 import {
   getMyProfile, updateMyProfile,
   getDailyTargets, saveDailyTargets,
@@ -262,6 +262,9 @@ export default function SettingsPage() {
       {/* ── 修改密码 ── */}
       {isSupabaseConfigured && <ChangePasswordSection />}
 
+      {/* ── 安装应用 ── */}
+      <InstallSection />
+
       {/* ── 退出登录 ── */}
       <div className="mt-4">
         <button
@@ -296,6 +299,57 @@ function SaveButton({
     >
       {saved ? <><Check size={14} strokeWidth={3} />已保存</> : "保存"}
     </button>
+  );
+}
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+}
+
+function InstallSection() {
+  const [installed, setInstalled] = useState(false);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      setInstalled(true);
+    }
+  }, []);
+
+  async function handleInstall() {
+    const prompt = (window as Window & { __pwaPrompt?: BeforeInstallPromptEvent }).__pwaPrompt;
+    if (!prompt) return;
+    prompt.prompt();
+    const { outcome } = await prompt.userChoice;
+    if (outcome === "accepted") setDone(true);
+  }
+
+  if (installed) return null;
+
+  const hasPrompt = typeof window !== "undefined" &&
+    !!(window as Window & { __pwaPrompt?: BeforeInstallPromptEvent }).__pwaPrompt;
+
+  return (
+    <Section title="安装应用">
+      {done ? (
+        <p className="text-sm text-green-400 flex items-center gap-2"><Check size={14} strokeWidth={3} />已添加到桌面</p>
+      ) : hasPrompt ? (
+        <button
+          onClick={handleInstall}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#252830] text-sm text-[#f0f2f5] hover:bg-[#1a1d24] transition-colors w-full"
+        >
+          <Smartphone size={14} className="text-[#f97316]" />
+          安装到手机桌面
+        </button>
+      ) : (
+        <div className="text-xs text-[#6b7280] space-y-2">
+          <p className="text-sm text-[#f0f2f5] mb-2">在手机上像 App 一样使用 FitLog</p>
+          <p>Android：浏览器右上角菜单 → <span className="text-[#f0f2f5]">添加到主屏幕</span></p>
+          <p>iOS Safari：底部分享按钮 → <span className="text-[#f0f2f5]">添加到主屏幕</span></p>
+        </div>
+      )}
+    </Section>
   );
 }
 
