@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import BottomNav from "@/components/BottomNav";
 import { isSupabaseConfigured } from "@/lib/db";
@@ -14,7 +15,9 @@ async function getCurrentUser(): Promise<UserInfo | null> {
     const { createClient } = await import("@/lib/supabase/server");
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return null;
+    if (!user) {
+      redirect("/login?redirected=1");
+    }
 
     const { data: profile } = await supabase
       .from("profiles")
