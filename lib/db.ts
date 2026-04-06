@@ -555,10 +555,12 @@ export async function updateMyProfile(
     const update: Record<string, unknown> = {};
     if (data.displayName !== undefined) update.display_name = data.displayName;
     if (data.weightKg !== undefined) update.weight_kg = data.weightKg;
-    if (data.age !== undefined) update.age = data.age;
-    if (data.heightCm !== undefined) update.height_cm = data.heightCm;
-    if (data.gender !== undefined) update.gender = data.gender;
-    if (data.restingHeartRate !== undefined) update.resting_heart_rate = data.restingHeartRate;
+    // New body fields — only include when non-null so the query stays valid
+    // before migration 001_add_body_fields.sql is run
+    if (data.age != null) update.age = data.age;
+    if (data.heightCm != null) update.height_cm = data.heightCm;
+    if (data.gender != null) update.gender = data.gender;
+    if (data.restingHeartRate != null) update.resting_heart_rate = data.restingHeartRate;
     await sb.from("profiles").update(update).eq("id", userId);
   } catch {
     // ignore
