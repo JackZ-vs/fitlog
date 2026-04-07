@@ -476,6 +476,7 @@ function NumField({ label, value, onChange }: { label: string; value: string; on
       <input
         type="number"
         inputMode="decimal"
+        step="any"
         min={0}
         value={value}
         onChange={(e) => onChange(e.target.value)}
