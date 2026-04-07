@@ -692,6 +692,48 @@ export async function getPublicFeed(): Promise<FeedItem[]> {
   }
 }
 
+export async function getPublicWorkoutById(id: string): Promise<FeedItem | null> {
+  if (!isSupabaseConfigured) {
+    const mockWorkouts = (await import("@/data/mockWorkouts.json")).default as WorkoutRecord[];
+    const w = mockWorkouts.find((w) => w.id === id && w.isPublic);
+    if (!w) return null;
+    return { ...w, estimatedCalories: null, userId: "mock", username: "demo", displayName: "示例用户" };
+  }
+  try {
+    const sb = await getBrowserClient();
+    const { data: row, error } = await sb
+      .from("workouts")
+      .select(`
+        id, date, name, estimated_calories, user_id,
+        workout_sets(set_number, weight, reps, duration, distance_km,
+          exercise:exercises(id, name, type, primary_muscles, met))
+      `)
+      .eq("id", id)
+      .eq("is_public", true)
+      .maybeSingle();
+    if (error || !row) return null;
+
+    const { data: profile } = await sb
+      .from("profiles")
+      .select("username, display_name")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .eq("id", (row as any).user_id)
+      .maybeSingle();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const r = row as any;
+    return {
+      ...dbRowToWorkout(r),
+      estimatedCalories: r.estimated_calories ?? null,
+      userId: r.user_id,
+      username: profile?.username ?? "unknown",
+      displayName: profile?.display_name ?? profile?.username ?? "用户",
+    };
+  } catch {
+    return null;
+  }
+}
+
 // ─── Weight Logs ──────────────────────────────────────────────────────────────
 
 const WEIGHT_LOG_KEY = "fitlog_weight_logs";

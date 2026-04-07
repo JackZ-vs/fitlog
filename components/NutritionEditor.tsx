@@ -306,7 +306,7 @@ interface AddFoodFormProps {
 function calcMacros(food: FoodItem, amount: number) {
   const r = amount / 100;
   return {
-    calories: String(Math.round(food.per100g.calories * r)),
+    calories: String(Math.round(food.per100g.calories * r * 10) / 10),
     protein: String(Math.round(food.per100g.protein * r * 10) / 10),
     carbs: String(Math.round(food.per100g.carbs * r * 10) / 10),
     fat: String(Math.round(food.per100g.fat * r * 10) / 10),

@@ -75,7 +75,7 @@ function FeedCard({ item }: { item: FeedItem }) {
       {/* Footer link */}
       <div className="px-4 py-2 border-t border-[#1a1d24]">
         <Link
-          href={`/workout/${item.date}`}
+          href={`/feed/${item.id}`}
           className="text-xs text-[#f97316] hover:underline"
         >
           查看训练详情 →

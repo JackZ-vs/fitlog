@@ -310,31 +310,52 @@ interface BeforeInstallPromptEvent extends Event {
 function InstallSection() {
   const [installed, setInstalled] = useState(false);
   const [done, setDone] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(display-mode: standalone)").matches) {
       setInstalled(true);
+      return;
     }
+
+    // Detect iOS Safari
+    const nav = window.navigator as Navigator & { standalone?: boolean };
+    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) && !nav.standalone;
+    const safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    if (ios && safari) setIsIOS(true);
+
+    // Pick up already-captured prompt
+    const w = window as Window & { __pwaPrompt?: BeforeInstallPromptEvent };
+    if (w.__pwaPrompt) {
+      setDeferredPrompt(w.__pwaPrompt);
+      return;
+    }
+
+    // Listen for future event
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
   async function handleInstall() {
-    const prompt = (window as Window & { __pwaPrompt?: BeforeInstallPromptEvent }).__pwaPrompt;
-    if (!prompt) return;
-    prompt.prompt();
-    const { outcome } = await prompt.userChoice;
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") setDone(true);
+    setDeferredPrompt(null);
   }
 
   if (installed) return null;
-
-  const hasPrompt = typeof window !== "undefined" &&
-    !!(window as Window & { __pwaPrompt?: BeforeInstallPromptEvent }).__pwaPrompt;
 
   return (
     <Section title="安装应用">
       {done ? (
         <p className="text-sm text-green-400 flex items-center gap-2"><Check size={14} strokeWidth={3} />已添加到桌面</p>
-      ) : hasPrompt ? (
+      ) : deferredPrompt ? (
         <button
           onClick={handleInstall}
           className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[#252830] text-sm text-[#f0f2f5] hover:bg-[#1a1d24] transition-colors w-full"
@@ -342,6 +363,12 @@ function InstallSection() {
           <Smartphone size={14} className="text-[#f97316]" />
           安装到手机桌面
         </button>
+      ) : isIOS ? (
+        <div className="text-xs text-[#6b7280] space-y-2">
+          <p className="text-sm text-[#f0f2f5] mb-2">在 iPhone / iPad 上安装</p>
+          <p>1. 点击底部 <span className="text-[#f97316]">分享</span> 按钮（方框+箭头图标）</p>
+          <p>2. 选择 <span className="text-[#f0f2f5] font-medium">添加到主屏幕</span></p>
+        </div>
       ) : (
         <div className="text-xs text-[#6b7280] space-y-2">
           <p className="text-sm text-[#f0f2f5] mb-2">在手机上像 App 一样使用 FitLog</p>

@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, History, Plus, BarChart2, User, Salad } from "lucide-react";
+import { LayoutDashboard, History, Plus, BarChart2, User, Users } from "lucide-react";
 
 const tabs = [
   { href: "/", icon: LayoutDashboard, label: "今日" },
   { href: "/history", icon: History, label: "历史" },
   { href: null, icon: Plus, label: "记录", action: true },
-  { href: "/foods", icon: Salad, label: "食物" },
+  { href: "/feed", icon: Users, label: "动态" },
   { href: "/stats", icon: BarChart2, label: "统计" },
   { href: "/settings", icon: User, label: "我的" },
 ];
