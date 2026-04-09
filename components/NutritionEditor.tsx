@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
-  ArrowLeft, ChevronDown, ChevronUp, Plus, Trash2, Check, X, Utensils, Dumbbell, Search,
+  ArrowLeft, ChevronDown, ChevronUp, Plus, Trash2, Check, X, Utensils, Dumbbell, Search, Copy,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -54,6 +54,7 @@ export default function NutritionEditor({ date }: Props) {
   const [collapsed, setCollapsed] = useState<Set<MealType>>(new Set());
   const [adding, setAdding] = useState<MealType | null>(null);
   const [summaryCollapsed, setSummaryCollapsed] = useState(false);
+  const [showCopyModal, setShowCopyModal] = useState(false);
 
   const [pageReady, setPageReady] = useState(false);
 
@@ -101,6 +102,19 @@ export default function NutritionEditor({ date }: Props) {
     await deleteMeal(id);
   }
 
+  async function handleCopyFromDate(sourceDate: string) {
+    const sourceMeals = await getMealsByDate(sourceDate);
+    if (sourceMeals.length === 0) return;
+    const copied: MealEntry[] = sourceMeals.map((m) => ({
+      ...m,
+      id: crypto.randomUUID(),
+      date,
+    }));
+    setMeals((prev) => [...prev, ...copied]);
+    await Promise.all(copied.map(saveMeal));
+    setShowCopyModal(false);
+  }
+
   if (!pageReady) {
     return (
       <div className="max-w-2xl mx-auto px-4 py-4 md:px-6 md:py-6">
@@ -128,6 +142,14 @@ export default function NutritionEditor({ date }: Props) {
           <p className="text-xs text-[#6b7280]">{formatDate(date)}</p>
           <h1 className="text-xl font-bold text-[#f0f2f5] leading-tight">饮食记录</h1>
         </div>
+        <button
+          onClick={() => setShowCopyModal(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1a1d24] text-[#6b7280] text-xs hover:text-[#f0f2f5] hover:bg-[#252830] transition-colors border border-[#252830]"
+          title="复制某日饮食"
+        >
+          <Copy size={13} />
+          复制
+        </button>
         <Link
           href={`/workout/${date}`}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1a1d24] text-[#6b7280] text-xs hover:text-[#f0f2f5] hover:bg-[#252830] transition-colors border border-[#252830]"
@@ -136,6 +158,15 @@ export default function NutritionEditor({ date }: Props) {
           训练记录
         </Link>
       </div>
+
+      {/* Copy from date modal */}
+      {showCopyModal && (
+        <CopyFromDateModal
+          currentDate={date}
+          onConfirm={handleCopyFromDate}
+          onClose={() => setShowCopyModal(false)}
+        />
+      )}
 
       {/* Date navigation */}
       <div className="flex items-center justify-between mb-5 px-1">
@@ -483,6 +514,72 @@ function NumField({ label, value, onChange }: { label: string; value: string; on
         placeholder="—"
         className="w-full px-2 py-2 rounded-lg bg-[#111318] border border-[#252830] text-[#f0f2f5] text-sm text-center placeholder:text-[#3f4350] focus:outline-none focus:border-[#f97316] transition-colors"
       />
+    </div>
+  );
+}
+
+/* ── CopyFromDateModal ── */
+interface CopyFromDateModalProps {
+  currentDate: string;
+  onConfirm: (sourceDate: string) => Promise<void>;
+  onClose: () => void;
+}
+
+function CopyFromDateModal({ currentDate, onConfirm, onClose }: CopyFromDateModalProps) {
+  const yesterday = new Date(currentDate + "T00:00:00");
+  yesterday.setDate(yesterday.getDate() - 1);
+  const defaultDate = yesterday.toISOString().slice(0, 10);
+
+  const [sourceDate, setSourceDate] = useState(defaultDate);
+  const [status, setStatus] = useState<"idle" | "loading" | "empty">("idle");
+
+  async function handleConfirm() {
+    if (!sourceDate || sourceDate === currentDate) return;
+    setStatus("loading");
+    const meals = await getMealsByDate(sourceDate);
+    if (meals.length === 0) { setStatus("empty"); return; }
+    await onConfirm(sourceDate);
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-xs rounded-2xl bg-[#111318] border border-[#252830] p-5 shadow-2xl">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-semibold text-[#f0f2f5]">复制某日饮食</h2>
+          <button onClick={onClose} className="text-[#3f4350] hover:text-[#6b7280]"><X size={15} /></button>
+        </div>
+        <p className="text-xs text-[#6b7280] mb-3">
+          选择来源日期，将该日所有饮食条目复制到当前日期，之后可自行删减修改。
+        </p>
+        <div className="mb-4">
+          <label className="block text-xs text-[#6b7280] mb-1.5">来源日期</label>
+          <input
+            type="date"
+            value={sourceDate}
+            max={new Date(currentDate + "T00:00:00").toISOString().slice(0, 10)}
+            onChange={(e) => { setSourceDate(e.target.value); setStatus("idle"); }}
+            className="w-full px-3 py-2.5 rounded-lg bg-[#1a1d24] border border-[#252830] text-[#f0f2f5] text-sm focus:outline-none focus:border-[#f97316] transition-colors"
+          />
+        </div>
+        {status === "empty" && (
+          <p className="text-xs text-amber-400 mb-3">该日期没有饮食记录</p>
+        )}
+        <div className="flex gap-2">
+          <button
+            onClick={handleConfirm}
+            disabled={status === "loading" || !sourceDate || sourceDate === currentDate}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-[#f97316] text-white text-sm font-semibold hover:bg-[#ea6c0a] disabled:opacity-60 transition-colors"
+          >
+            {status === "loading" ? "复制中…" : <><Copy size={13} /> 复制过来</>}
+          </button>
+          <button
+            onClick={onClose}
+            className="flex-1 py-2.5 rounded-lg bg-[#252830] text-[#6b7280] text-sm hover:text-[#f0f2f5] transition-colors"
+          >
+            取消
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
