@@ -19,7 +19,7 @@ export function middleware(request: NextRequest) {
 
     if (!hasSession) {
       const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("redirected", "1");
+      loginUrl.searchParams.set("next", request.nextUrl.pathname);
       return NextResponse.redirect(loginUrl);
     }
   } catch {

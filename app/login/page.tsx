@@ -1,12 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Zap, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { isSupabaseConfigured } from "@/lib/db";
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") ?? "/";
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +32,7 @@ export default function LoginPage() {
     if (!isSupabaseConfigured) {
       // Dev / mock mode — skip auth
       await new Promise((r) => setTimeout(r, 400));
-      router.push("/");
+      router.push(next);
       return;
     }
 
@@ -34,7 +44,7 @@ export default function LoginPage() {
       if (authError) {
         setError("用户名或密码错误，请重试");
       } else {
-        router.push("/");
+        router.push(next);
         router.refresh();
       }
     } catch {

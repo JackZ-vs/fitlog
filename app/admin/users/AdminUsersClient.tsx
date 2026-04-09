@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, X, Check, User } from "lucide-react";
+import { Plus, X, Check, User, Trash2 } from "lucide-react";
 import { getAllProfiles } from "@/lib/db";
 import type { Profile } from "@/lib/db";
 
@@ -43,7 +43,7 @@ export default function AdminUsersClient() {
       ) : (
         <div className="rounded-xl bg-[#111318] border border-[#252830] overflow-hidden">
           {/* Header */}
-          <div className="grid grid-cols-[1fr_1fr_80px_120px] gap-3 px-4 py-2.5 border-b border-[#252830] text-[10px] font-semibold text-[#6b7280] uppercase">
+          <div className="grid grid-cols-[1fr_1fr_80px_160px] gap-3 px-4 py-2.5 border-b border-[#252830] text-[10px] font-semibold text-[#6b7280] uppercase">
             <span>用户名 / 显示名</span>
             <span>创建时间</span>
             <span>角色</span>
@@ -66,6 +66,7 @@ export default function AdminUsersClient() {
 
 function UserRow({ profile, onRefresh }: { profile: Profile; onRefresh: () => void }) {
   const [busy, setBusy] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   async function handleRoleToggle() {
     setBusy(true);
@@ -81,8 +82,24 @@ function UserRow({ profile, onRefresh }: { profile: Profile; onRefresh: () => vo
     }
   }
 
+  async function handleDelete() {
+    if (!confirmDelete) { setConfirmDelete(true); return; }
+    setBusy(true);
+    try {
+      const res = await fetch("/api/admin/delete-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: profile.id }),
+      });
+      if (res.ok) onRefresh();
+    } finally {
+      setBusy(false);
+      setConfirmDelete(false);
+    }
+  }
+
   return (
-    <div className="grid grid-cols-[1fr_1fr_80px_120px] gap-3 px-4 py-3 border-b border-[#1a1d24] last:border-0 items-center">
+    <div className="grid grid-cols-[1fr_1fr_80px_160px] gap-3 px-4 py-3 border-b border-[#1a1d24] last:border-0 items-center">
       <div className="min-w-0">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-full bg-[#252830] flex items-center justify-center shrink-0">
@@ -102,13 +119,28 @@ function UserRow({ profile, onRefresh }: { profile: Profile; onRefresh: () => vo
       <span className={`text-xs font-medium ${profile.role === "admin" ? "text-[#f97316]" : "text-[#6b7280]"}`}>
         {profile.role === "admin" ? "管理员" : "用户"}
       </span>
-      <button
-        onClick={handleRoleToggle}
-        disabled={busy}
-        className="text-xs text-[#6b7280] hover:text-[#f0f2f5] border border-[#252830] rounded-lg px-2 py-1 hover:bg-[#1a1d24] transition-colors disabled:opacity-50"
-      >
-        {profile.role === "admin" ? "降级为用户" : "提升为管理员"}
-      </button>
+      <div className="flex items-center gap-1.5">
+        <button
+          onClick={handleRoleToggle}
+          disabled={busy}
+          className="text-xs text-[#6b7280] hover:text-[#f0f2f5] border border-[#252830] rounded-lg px-2 py-1 hover:bg-[#1a1d24] transition-colors disabled:opacity-50"
+        >
+          {profile.role === "admin" ? "降级" : "升级"}
+        </button>
+        <button
+          onClick={handleDelete}
+          onBlur={() => setConfirmDelete(false)}
+          disabled={busy}
+          className={`flex items-center gap-1 text-xs border rounded-lg px-2 py-1 transition-colors disabled:opacity-50 ${
+            confirmDelete
+              ? "text-white bg-red-600 border-red-600 hover:bg-red-700"
+              : "text-[#6b7280] border-[#252830] hover:text-red-400 hover:border-red-400 hover:bg-[#1a1d24]"
+          }`}
+        >
+          <Trash2 size={11} />
+          {confirmDelete ? "确认" : "删除"}
+        </button>
+      </div>
     </div>
   );
 }
