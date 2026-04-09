@@ -10,6 +10,7 @@ export interface WorkoutExercise {
   exerciseName: string;
   primaryMuscles: string[];
   type: string;
+  equipment: string;
   met: number;
   sets: SetData[];
 }

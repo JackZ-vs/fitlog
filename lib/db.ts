@@ -76,6 +76,7 @@ function dbRowToWorkout(row: any): WorkoutRecord {
           exerciseName: ex.name,
           primaryMuscles: ex.primary_muscles ?? [],
           type: ex.type ?? "",
+          equipment: ex.equipment ?? "",
           met: ex.met ?? 0,
           sets: [],
         },
@@ -112,7 +113,7 @@ const SETS_QUERY = `
   id, date, name, notes, is_public,
   workout_sets (
     set_number, weight, reps, duration, distance_km,
-    exercise:exercises ( id, name, type, primary_muscles, met )
+    exercise:exercises ( id, name, type, equipment, primary_muscles, met )
   )
 `;
 

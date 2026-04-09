@@ -75,6 +75,7 @@ export default function ExercisePicker({ onAdd, onClose }: ExercisePickerProps) 
         exerciseName: e.name,
         primaryMuscles: e.primaryMuscles,
         type: e.type,
+        equipment: e.equipment,
         met: e.met,
         sets: [{ weight: null, reps: null, duration: null }],
       }));

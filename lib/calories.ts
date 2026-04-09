@@ -42,8 +42,12 @@ function strengthSetKcal(set: SetData, ex: WorkoutExercise, bw: number): number 
   const reps = set.reps ?? 0;
   if (reps === 0) return 0;
 
-  // Load: use set weight or estimate as 60% bodyweight for bodyweight moves
-  const load = set.weight ?? bw * 0.6;
+  // Load: bodyweight exercises use BW×0.75 as base + any added weight (vest/belt)
+  //       other exercises use the recorded weight, falling back to BW×0.6
+  const isBodyweight = ex.equipment === "自重";
+  const load = isBodyweight
+    ? bw * 0.75 + (set.weight ?? 0)
+    : (set.weight ?? bw * 0.6);
 
   // Active set time: reps × 3 s
   const setHrs = (reps * 3) / 3600;

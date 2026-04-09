@@ -482,7 +482,7 @@ function ExerciseBlock({
               </>
             ) : (
               <>
-                <span>重量（kg）</span>
+                <span>{ex.equipment === "自重" ? "附加重量" : "重量（kg）"}</span>
                 <span>次数</span>
                 <span className="text-right">kcal</span>
                 <span />
@@ -556,7 +556,7 @@ function SetRow({ setNum, set, exercise, isCardio, bodyWeightKg, canDelete, onUp
         </>
       ) : (
         <>
-          <NumInput value={set.weight} placeholder="重量" step={2.5} onChange={(v) => onUpdate("weight", v)} />
+          <NumInput value={set.weight} placeholder={exercise.equipment === "自重" ? "+kg" : "重量"} step={2.5} onChange={(v) => onUpdate("weight", v)} />
           <NumInput value={set.reps} placeholder="次数" step={1} onChange={(v) => onUpdate("reps", v)} />
           <span className="text-[10px] text-[#6b7280] text-right leading-tight">{kcalLabel}</span>
           <button
